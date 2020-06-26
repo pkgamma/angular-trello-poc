@@ -39,11 +39,7 @@ export class SidebarComponent implements OnInit {
   }
 
   onBoardSwitch(id: number) {
-    if (id == this.dataService.getCurrentBoardId()) {
-      // do nothing, already on this board
-    } else {
-      this.dataService.setCurrentBoardId(id);
-    }
+    this.dataService.setCurrentBoardId(id);
     this.boardSwitched.emit(id);
   }
 

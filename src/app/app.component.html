@@ -1,5 +1,14 @@
 <poc-sidebar (boardSwitched)='onRefresh()'>
 
+  <div *ngIf="dataService.getCurrentBoardId() == -1">
+    <mat-card class="board-selection-card">
+      <mat-card-content>SELECT A BOARD FROM SIDEBAR</mat-card-content>
+    </mat-card>
+    <mat-card class="board-selection-card" *ngFor="let board of boards">
+      <mat-card-content>{{board.title}}</mat-card-content>
+    </mat-card>
+  </div>
+
   <div cdkDropList cdkDropListOrientation="horizontal" class="board-container">
 
     <!-- List cards (within a board) -->
