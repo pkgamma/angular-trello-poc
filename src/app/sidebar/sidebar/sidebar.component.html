@@ -2,11 +2,13 @@
 
     <!-- SIDEBAR -->
     <mat-sidenav #sidenav mode="over" (opened)="events.push('open!')" (closed)="events.push('close!')">
-        
+
         <mat-toolbar color="primary">
             <span>Boards</span>
             <span class="spacer"></span>
-            <button mat-raised-button color="accent"><mat-icon>add</mat-icon>New Board</button>
+            <button mat-raised-button color="accent">
+                <mat-icon>add</mat-icon>New Board
+            </button>
         </mat-toolbar>
 
         <!-- shows how many times side bar has been open and closed -->
@@ -26,7 +28,9 @@
             </button>
             <span>Lists (of board ___)</span>
             <span class="spacer"></span>
-            <button mat-raised-button color="accent"><mat-icon>add</mat-icon>New List</button>
+            <button mat-raised-button color="accent" (click)="openDialog()">
+                <mat-icon>add</mat-icon>New List
+            </button>
         </mat-toolbar>
 
         <!-- everything else -->
