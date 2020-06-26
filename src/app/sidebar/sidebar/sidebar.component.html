@@ -6,11 +6,10 @@
         <mat-toolbar color="primary">
             <span>Boards</span>
             <span class="spacer"></span>
-            <button mat-icon-button>
-                <mat-icon>add</mat-icon>
-            </button>
+            <button mat-raised-button color="accent"><mat-icon>add</mat-icon>New Board</button>
         </mat-toolbar>
 
+        <!-- shows how many times side bar has been open and closed -->
         <div class="example-events">
             <div *ngFor="let e of events">{{e}}</div>
         </div>
@@ -25,14 +24,9 @@
             <button mat-icon-button (click)="sidenav.toggle()">
                 <mat-icon>menu</mat-icon>
             </button>
-            <span>Angular Trello POC</span>
+            <span>Lists (of board ___)</span>
             <span class="spacer"></span>
-            <button mat-icon-button>
-                <mat-icon>favorite</mat-icon>
-            </button>
-            <button mat-icon-button>
-                <mat-icon>share</mat-icon>
-            </button>
+            <button mat-raised-button color="accent"><mat-icon>add</mat-icon>New List</button>
         </mat-toolbar>
 
         <!-- everything else -->

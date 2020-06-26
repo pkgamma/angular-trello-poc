@@ -1,1 +1,16 @@
-<poc-sidebar></poc-sidebar>
+<poc-sidebar>
+
+  <div class="board-container">
+    <mat-card class="list-card" *ngFor="let n of numbers">
+
+      <mat-card-title>List 1</mat-card-title>
+      <mat-card-content>List 1 Description</mat-card-content>
+
+      <mat-card class="item-card" *ngFor="let n of numbers">
+        <mat-card-content>Item 1</mat-card-content>
+      </mat-card>
+
+    </mat-card>
+  </div>
+
+</poc-sidebar>

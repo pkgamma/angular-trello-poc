@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  // title = 'trello-poc';
+
+  numbers: numbers[];
+  
+  constructor() {
+    this.numbers = Array(5).fill(4); // [4,4,4,4,4]
+  }
+
 }

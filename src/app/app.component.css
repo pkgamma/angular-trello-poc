@@ -1,0 +1,18 @@
+.board-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.list-card {
+  width: 250px;
+  margin: 20px 0px 20px 20px;
+  flex-shrink: 0;
+  overflow: auto;
+}
+
+.item-card {
+  background-color: #f0f0f0;
+  margin-bottom: 10px;
+}
