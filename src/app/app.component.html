@@ -1,16 +1,20 @@
 <poc-sidebar>
 
   <div class="board-container">
-    <mat-card class="list-card" *ngFor="let n of numbers">
+
+    <!-- List cards (within a board) -->
+    <mat-card cdkDropList (cdkDropListDropped)="drop($event)" class="list-card" *ngFor="let n of numbers">
 
       <mat-card-title>List 1</mat-card-title>
       <mat-card-content>List 1 Description</mat-card-content>
 
-      <mat-card class="item-card" *ngFor="let n of numbers">
-        <mat-card-content>Item 1</mat-card-content>
+      <!-- Items cards (within a list) -->
+      <mat-card cdkDrag class="item-card" *ngFor="let movie of movies">
+        <mat-card-content>{{movie}}</mat-card-content>
       </mat-card>
 
     </mat-card>
+    
   </div>
 
 </poc-sidebar>
