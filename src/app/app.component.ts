@@ -1,12 +1,31 @@
-import { Component } from '@angular/core';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DataService } from './data.service';
+import { Board, List, Item } from './data';
 
 @Component({
   selector: 'poc-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  boards: Board[];
+
+  constructor(private dataService: DataService) {
+  }
+
+  ngOnInit(): void {
+    this.boards = this.dataService.getBoards();
+  }
+
+  // getBoardsList(boardNum: number): string[] {
+  //   for (let board of this.boards) {
+  //     console.log(board.title);
+  //   }
+  //   return;
+  // }
+
 
   numbers: number[] = [1, 2, 3, 4, 5];
 

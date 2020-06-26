@@ -1,5 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Board, List, Item } from '../../data';
+
+import { DataService } from '../../data.service';
 
 export interface DialogData {
   newListName: string;
@@ -11,7 +14,7 @@ export interface DialogData {
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
 
   events: string[] = [];
   opened: boolean;
@@ -19,7 +22,21 @@ export class SidebarComponent {
   newListName: string;
   newBoardName: string;
 
-  constructor(public dialog: MatDialog) { }
+  boards: Board[];
+
+  constructor(public dialog: MatDialog, private dataService: DataService) { }
+
+  ngOnInit() {
+    this.boards = this.dataService.getBoards();
+  }
+
+  onBoardSwitch(id: number) {
+    if (id == this.dataService.getCurrentBoardId()) {
+      // do nothing, already on this board
+    } else {
+      this.dataService.setCurrentBoardId(id);
+    }
+  }
 
   openNewListDialog(): void {
     const dialogRef = this.dialog.open(AddListComponent, {
