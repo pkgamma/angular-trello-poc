@@ -37,13 +37,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { SidebarComponent, AddBoardComponent } from './sidebar/sidebar/sidebar.component';
+import { SidebarComponent, AddListComponent, AddBoardComponent } from './sidebar/sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
+    AddListComponent,
     AddBoardComponent
   ],
   imports: [

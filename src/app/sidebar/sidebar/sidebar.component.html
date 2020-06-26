@@ -6,7 +6,7 @@
         <mat-toolbar color="primary">
             <span>Boards</span>
             <span class="spacer"></span>
-            <button mat-raised-button color="accent">
+            <button mat-raised-button color="accent" (click)="openNewBoardDialog()">
                 <mat-icon>add</mat-icon>New Board
             </button>
         </mat-toolbar>
@@ -28,7 +28,7 @@
             </button>
             <span>Lists (of board ___)</span>
             <span class="spacer"></span>
-            <button mat-raised-button color="accent" (click)="openDialog()">
+            <button mat-raised-button color="accent" (click)="openNewListDialog()">
                 <mat-icon>add</mat-icon>New List
             </button>
         </mat-toolbar>
