@@ -1,10 +1,6 @@
-<poc-sidebar>
+<poc-sidebar (boardSwitched)='onRefresh()'>
 
   <div cdkDropList cdkDropListOrientation="horizontal" class="board-container">
-
-    <button mat-raised-button color="accent" (click)="onRefresh()">
-      refresh
-    </button>
 
     <!-- List cards (within a board) -->
     <mat-card cdkDropList cdkDrag cdkDragLockAxis="x" (cdkDropListDropped)="drop($event)" class="list-card"

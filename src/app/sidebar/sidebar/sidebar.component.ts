@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, EventEmitter, Output } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Board, List, Item } from '../../data';
 
@@ -16,6 +16,8 @@ export interface DialogData {
 })
 export class SidebarComponent implements OnInit {
 
+  @Output() boardSwitched: EventEmitter<number> = new EventEmitter<number>();
+
   events: string[] = [];
   opened: boolean;
 
@@ -23,11 +25,17 @@ export class SidebarComponent implements OnInit {
   newBoardName: string;
 
   boards: Board[];
+  errorMessage: string;
 
   constructor(public dialog: MatDialog, private dataService: DataService) { }
 
   ngOnInit() {
-    this.boards = this.dataService.getBoards();
+    this.dataService.getBoards().subscribe({
+      next: boards => {
+          this.boards = boards;
+      },
+      error: err => this.errorMessage = err
+  });
   }
 
   onBoardSwitch(id: number) {
@@ -36,6 +44,7 @@ export class SidebarComponent implements OnInit {
     } else {
       this.dataService.setCurrentBoardId(id);
     }
+    this.boardSwitched.emit(id);
   }
 
   openNewListDialog(): void {
