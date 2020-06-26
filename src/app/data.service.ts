@@ -11,15 +11,29 @@ import { Board, List, Item } from './data'
 export class DataService {
 
   currentBoardId: number;
+  currentBoardContent: List[];
 
-  getCurrentBoardId() {
+  getCurrentBoardId(): number {
     return this.currentBoardId;
   }
-
   setCurrentBoardId(id: number) {
     this.currentBoardId = id;
     // populate data for current board
     console.log('current board ID set as ' + this.currentBoardId)
+    this.setCurrentBoardContent(id);
+  }
+
+  getCurrentBoardContent(): List[] {
+    return this.currentBoardContent;
+  }
+  setCurrentBoardContent(id: number) {
+    const boards = this.getBoards();
+    for (let board of boards) {
+      if (board.id == id) {
+        this.currentBoardContent = board.content;
+        console.log(this.currentBoardContent);
+      }
+    }
   }
 
   // HARD CODED METHOD (TEMP)

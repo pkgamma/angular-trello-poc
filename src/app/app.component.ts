@@ -10,13 +10,17 @@ import { Board, List, Item } from './data';
 })
 export class AppComponent implements OnInit {
 
-  boards: Board[];
+  currentBoardContent: List[];
 
   constructor(private dataService: DataService) {
   }
 
-  ngOnInit(): void {
-    this.boards = this.dataService.getBoards();
+  ngOnInit() {
+    this.currentBoardContent = this.dataService.getCurrentBoardContent();
+  }
+
+  onRefresh() {
+    this.currentBoardContent = this.dataService.getCurrentBoardContent();
   }
 
   // getBoardsList(boardNum: number): string[] {
