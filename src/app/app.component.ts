@@ -15,6 +15,8 @@ export class AppComponent implements OnInit {
   boards: Board[];
   errorMessage: string;
 
+  currentBoardId: number;
+
   constructor(private dataService: DataService) {
   }
 
@@ -26,9 +28,11 @@ export class AppComponent implements OnInit {
       error: err => this.errorMessage = err
   });
     this.dataService.setCurrentBoardId(-1);
+    this.currentBoardId = this.dataService.getCurrentBoardId();
   }
 
   onRefresh() {
+    this.currentBoardId = this.dataService.getCurrentBoardId();
     this.currentBoardContent = this.dataService.getCurrentBoardContent();
   }
 

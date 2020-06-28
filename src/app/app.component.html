@@ -1,6 +1,6 @@
 <poc-sidebar (boardSwitched)='onRefresh()'>
 
-  <div *ngIf="dataService.getCurrentBoardId() == -1">
+  <div *ngIf="currentBoardId == -1">
     <mat-card class="board-selection-card">
       <mat-card-content>SELECT A BOARD FROM SIDEBAR</mat-card-content>
     </mat-card>
