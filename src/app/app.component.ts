@@ -1,9 +1,9 @@
-import { Component, ElementRef, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { DataService } from './shared/data.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Board, List, Item } from './shared/data';
+import { MatDialog } from '@angular/material/dialog';
 
+import { DataService } from './shared/data.service';
+import { Board, List, Item } from './shared/data';
 import { ListModifyComponent } from './popups/list-modify/list-modify.component'
 
 @Component({
@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
 
   boards: Board[];
   currentBoardId: number;
+  currentBoardTitle: string;
   currentBoardContent: List[];
   currentBoardListIds: string[];  
   newListName: string;
@@ -27,7 +28,6 @@ export class AppComponent implements OnInit {
     this.dataService.setCurrentBoardId(-1);
     this.boards = this.dataService.getBoards();
     this.currentBoardId = this.dataService.getCurrentBoardId();
-    this.currentBoardContent = this.dataService.getCurrentBoardContent();
   }
 
   onAddListButtonClick() {
@@ -48,8 +48,11 @@ export class AppComponent implements OnInit {
 
   onBoardSwitch() {
     this.currentBoardId = this.dataService.getCurrentBoardId();
+    this.currentBoardTitle = this.dataService.getCurrentBoardTitle();
     this.currentBoardContent = this.dataService.getCurrentBoardContent();
-    this.currentBoardListIds = this.currentBoardContent.map(track => "" + track.id);
+    if (this.currentBoardContent) {
+      this.currentBoardListIds = this.currentBoardContent.map(list => "" + list.id);
+    }
   }
 
   onListDrop(event: CdkDragDrop<List[]>) {

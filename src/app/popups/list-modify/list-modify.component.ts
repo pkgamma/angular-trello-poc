@@ -1,14 +1,10 @@
 import { Component, Inject, OnInit, EventEmitter, Output } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { Board, List, Item } from '../../shared/data';
-
-import { DataService } from '../../shared/data.service';
-
-import { SidebarComponent } from '../../sidebar/sidebar.component';
 
 export interface DialogData {
   newListName: string;
-  newBoardName: string;
 }
 
 @Component({

@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap, map, finalize } from 'rxjs/operators'
 
 import { Board, List, Item } from './data'
 
@@ -12,31 +9,43 @@ declare var require: any
 })
 export class DataService {
 
+  boards: Board[];
   currentBoardId: number;
   currentBoardTitle: string;
   currentBoardContent: List[];
-
-  private _boards: Board[] = require('./demoData.json');
-
-  boards: Board[];
-
-  getBoards(): Board[] {
-    return this._boards;
-  }
 
   onAppCompInit() {
     this.boards = this.getBoards();
   }
 
-  // getter for Board Title
+  // getter and setter for Boards
+  // ================================
+
+  private _boards: Board[] = require('./demoData.json');
+
+  getBoards(): Board[] {
+    return this._boards;
+  }
+
+  // setBoards(URL: string) {
+  //   this._boards = require(URL);
+  //   this.onAppCompInit();
+  // }
+
+  // getter and setter for Board Title
   // ================================
 
   getCurrentBoardTitle(): string {
     return this.currentBoardTitle;
   }
 
+  setCurrentBoardTitle(title: string) {
+    this.currentBoardTitle = title;
+  }
+
   // getter & setter for Board ID
   // ================================
+  // an ID of -1 is home (no board selected)
 
   getCurrentBoardId(): number {
     return this.currentBoardId;
@@ -57,22 +66,21 @@ export class DataService {
   }
 
   setCurrentBoardContent(id: number) {
-
     if (id == -1) { this.currentBoardContent = null }
-
     for (let board of this.boards) {
       if (board.id == id) {
         this.currentBoardContent = board.content;
-        console.log(this.currentBoardContent);
+        this.setCurrentBoardTitle(board.title);
       }
     }
+    console.log(this.currentBoardContent);
   }
 
   // BELOW IS THE ORIGINAL CODE FOR GETTING JSON THRU HTTP
   // =======================================================
 
-  // private URL = 'assets/data.json';
-  
+  // private URL = './demoData.json';
+
   // constructor(private http: HttpClient) {
   // }
 
