@@ -1,4 +1,4 @@
-<poc-sidebar (boardSwitched)='onRefresh()'>
+<poc-sidebar (boardSwitched)='onBoardSwitch()'>
 
   <div *ngIf="currentBoardId == -1" class="board-selection-container">
     <section class="mat-typography">
@@ -6,19 +6,21 @@
     </section>
     <div class="break"></div>
     <button mat-raised-button class="board-selection-button" *ngFor="let board of boards"
-      (click)="onBoardSwitch(board.id)">{{board.title}}</button>
+      (click)="onBoardSelect(board.id)">{{board.title}}</button>
   </div>
 
   <!-- TODO add style -->
-  <button mat-raised-button color="accent" (click)="onAddListButton()" *ngIf="currentBoardContent">
+  <button mat-raised-button color="accent" (click)="onAddListButtonClick()" *ngIf="currentBoardContent">
     <mat-icon>add</mat-icon>New List
   </button>
 
-  <div cdkDropList cdkDropListOrientation="horizontal" class="board-container">
+  <div cdkDropList cdkDropListOrientation="horizontal" class="board-container" (cdkDropListDropped)="onListDrop($event)">
 
     <!-- List cards (within a board) -->
-    <mat-card cdkDropList cdkDrag cdkDragLockAxis="x" (cdkDropListDropped)="drop($event)" class="list-card"
-      *ngFor="let list of currentBoardContent">
+    <mat-card class="list-card" *ngFor="let list of currentBoardContent"
+    cdkDropList (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content"
+    id="{{list.id}}" [cdkDropListConnectedTo]="this.currentBoardListIds"
+    cdkDrag cdkDragLockAxis="x">
 
       <div class="darg-handle" cdkDragHandle>
         <svg width="24px" fill="currentColor" viewBox="0 0 24 24">

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Output, EventEmitter, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { DataService } from './shared/data.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Board, List, Item } from './shared/data';
@@ -13,14 +13,11 @@ import { ListModifyComponent } from './popups/list-modify/list-modify.component'
 })
 export class AppComponent implements OnInit {
 
-  currentBoardContent: List[];
-
-  newListName: string;
-
   boards: Board[];
-  errorMessage: string;
-
   currentBoardId: number;
+  currentBoardContent: List[];
+  currentBoardListIds: string[];  
+  newListName: string;
 
   constructor(private dataService: DataService, public dialog: MatDialog) {
   }
@@ -33,11 +30,7 @@ export class AppComponent implements OnInit {
     this.currentBoardContent = this.dataService.getCurrentBoardContent();
   }
 
-  onCardClick(evt: MouseEvent){
-    console.log(evt);
-  }
-
-  onAddListButton() {
+  onAddListButtonClick() {
     const dialogRef = this.dialog.open(ListModifyComponent, {
       data: { newListName: this.newListName }
     });
@@ -48,19 +41,30 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onBoardSwitch(id: number) {
+  onBoardSelect(id: number) {
     this.dataService.setCurrentBoardId(id);
-    this.onRefresh();
+    this.onBoardSwitch();
   }
 
-  onRefresh() {
-    // console.log("onRefresh")
+  onBoardSwitch() {
     this.currentBoardId = this.dataService.getCurrentBoardId();
     this.currentBoardContent = this.dataService.getCurrentBoardContent();
+    this.currentBoardListIds = this.currentBoardContent.map(track => "" + track.id);
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    // moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
+  onListDrop(event: CdkDragDrop<List[]>) {
+    moveItemInArray(this.currentBoardContent, event.previousIndex, event.currentIndex);
+  }
+
+  onItemDrop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
   }
 
 }
