@@ -16,6 +16,10 @@
             <a mat-list-item *ngFor="let board of boards" (click)="onBoardSwitch(board.id)"> {{ board.title }} </a>
         </mat-nav-list>
 
+        <button mat-raised-button color="accent" (click)="onBoardSwitch(-1)">
+            <mat-icon>add</mat-icon>Overview
+        </button>
+
     </mat-sidenav>
 
     <!-- MAIN CONTENT -->
@@ -27,10 +31,10 @@
                 <mat-icon>menu</mat-icon>
             </button>
             <span>Lists (of board ___)</span>
-            <span class="spacer"></span>
-            <button mat-raised-button color="accent" (click)="openNewListDialog()">
+            <!-- <span class="spacer"></span>
+            <button mat-raised-button color="accent">
                 <mat-icon>add</mat-icon>New List
-            </button>
+            </button> -->
         </mat-toolbar>
 
         <!-- everything else -->

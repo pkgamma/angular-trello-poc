@@ -5,7 +5,6 @@ import { Board, List, Item } from '../../data';
 import { DataService } from '../../data.service';
 
 export interface DialogData {
-  newListName: string;
   newBoardName: string;
 }
 
@@ -24,29 +23,22 @@ export class SidebarComponent implements OnInit {
   newListName: string;
   newBoardName: string;
 
+  currentBoardId: number;
+
   boards: Board[];
   errorMessage: string;
 
   constructor(public dialog: MatDialog, private dataService: DataService) { }
 
   ngOnInit() {
+    this.currentBoardId = this.dataService.getCurrentBoardId();
     this.boards = this.dataService.getBoards();
   }
 
   onBoardSwitch(id: number) {
     this.dataService.setCurrentBoardId(id);
+    this.currentBoardId = this.dataService.getCurrentBoardId();
     this.boardSwitched.emit(id);
-  }
-
-  openNewListDialog(): void {
-    const dialogRef = this.dialog.open(AddListComponent, {
-      data: { newListName: this.newListName }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.newListName = result;
-      console.log('The list dialog was closed');
-      console.log(this.newListName);
-    });
   }
 
   openNewBoardDialog(): void {
@@ -58,22 +50,6 @@ export class SidebarComponent implements OnInit {
       console.log('The board dialog was closed');
       console.log(this.newBoardName);
     });
-  }
-
-}
-
-@Component({
-  selector: 'poc-sidebar-add-list',
-  templateUrl: './sidebar.add-list.component.html',
-})
-export class AddListComponent {
-
-  constructor(
-    public dialogRef: MatDialogRef<AddListComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 
 }

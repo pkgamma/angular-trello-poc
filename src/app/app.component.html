@@ -5,12 +5,15 @@
       <h1>Welcome! Please select a board.</h1>
     </section>
     <div class="break"></div>
-
-    <button mat-raised-button class="board-selection-button" *ngFor="let board of boards" (click)="onBoardSwitch(board.id)">{{board.title}}</button>
-
+    <button mat-raised-button class="board-selection-button" *ngFor="let board of boards"
+      (click)="onBoardSwitch(board.id)">{{board.title}}</button>
   </div>
 
   <div cdkDropList cdkDropListOrientation="horizontal" class="board-container">
+
+    <button mat-raised-button color="accent" (click)="onAddListButton()" *ngIf="currentBoardContent">
+      <mat-icon>add</mat-icon>New List
+    </button>
 
     <!-- List cards (within a board) -->
     <mat-card cdkDropList cdkDrag cdkDragLockAxis="x" (cdkDropListDropped)="drop($event)" class="list-card"

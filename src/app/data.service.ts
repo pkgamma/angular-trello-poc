@@ -12,16 +12,20 @@ declare var require: any
 })
 export class DataService {
 
-  boards: Board[];
-
   currentBoardId: number;
   currentBoardTitle: string;
   currentBoardContent: List[];
 
   private _boards: Board[] = require('./demoData.json');
+  
+  boards: Board[];
 
   getBoards(): Board[] {
     return this._boards;
+  }
+
+  onAppCompInit() {
+    this.boards = this.getBoards();
   }
 
   // getter for Board Title
@@ -53,7 +57,8 @@ export class DataService {
   }
 
   setCurrentBoardContent(id: number) {
-    this.boards = this.getBoards();
+
+    if (id == -1) { this.currentBoardContent = [] }
 
     for (let board of this.boards) {
       if (board.id == id) {
