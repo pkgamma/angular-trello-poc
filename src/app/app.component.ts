@@ -1,8 +1,8 @@
 import { Component, ElementRef, Output, EventEmitter, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { DataService } from './data.service';
+import { DataService } from './shared/data.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Board, List, Item } from './data';
+import { Board, List, Item } from './shared/data';
 
 import { ListModifyComponent } from './popups/list-modify/list-modify.component'
 

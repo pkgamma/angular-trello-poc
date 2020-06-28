@@ -17,7 +17,7 @@ export class DataService {
   currentBoardContent: List[];
 
   private _boards: Board[] = require('./demoData.json');
-  
+
   boards: Board[];
 
   getBoards(): Board[] {
@@ -58,7 +58,7 @@ export class DataService {
 
   setCurrentBoardContent(id: number) {
 
-    if (id == -1) { this.currentBoardContent = [] }
+    if (id == -1) { this.currentBoardContent = null }
 
     for (let board of this.boards) {
       if (board.id == id) {

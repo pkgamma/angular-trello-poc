@@ -38,15 +38,16 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppComponent } from './app.component';
-import { SidebarComponent, AddBoardComponent } from './sidebar/sidebar/sidebar.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 import { ListModifyComponent } from './popups/list-modify/list-modify.component';
+import { BoardModifyComponent } from './popups/board-modify/board-modify.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
-    AddBoardComponent,
-    ListModifyComponent
+    ListModifyComponent,
+    BoardModifyComponent
   ],
   imports: [
     BrowserModule,

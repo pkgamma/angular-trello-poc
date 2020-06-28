@@ -7,22 +7,21 @@ import { DataService } from '../../shared/data.service';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
 
 export interface DialogData {
-  newListName: string;
   newBoardName: string;
 }
 
 @Component({
-  selector: 'poc-list-modify',
-  templateUrl: './list-modify.component.html',
-  styleUrls: ['./list-modify.component.css']
+  selector: 'poc-board-modify',
+  templateUrl: './board-modify.component.html',
+  styleUrls: ['./board-modify.component.css']
 })
-export class ListModifyComponent implements OnInit {
+export class BoardModifyComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  
   constructor(
-    public dialogRef: MatDialogRef<ListModifyComponent>,
+    public dialogRef: MatDialogRef<BoardModifyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   onNoClick(): void {

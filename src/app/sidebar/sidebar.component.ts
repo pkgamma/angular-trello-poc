@@ -1,12 +1,10 @@
 import { Component, Inject, OnInit, EventEmitter, Output } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Board, List, Item } from '../../data';
+import { Board, List, Item } from '../shared/data';
 
-import { DataService } from '../../data.service';
+import { DataService } from '../shared/data.service';
 
-export interface DialogData {
-  newBoardName: string;
-}
+import { BoardModifyComponent } from '../popups/board-modify/board-modify.component';
 
 @Component({
   selector: 'poc-sidebar',
@@ -42,7 +40,7 @@ export class SidebarComponent implements OnInit {
   }
 
   openNewBoardDialog(): void {
-    const dialogRef = this.dialog.open(AddBoardComponent, {
+    const dialogRef = this.dialog.open(BoardModifyComponent, {
       data: { newBoardName: this.newBoardName }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -50,22 +48,6 @@ export class SidebarComponent implements OnInit {
       console.log('The board dialog was closed');
       console.log(this.newBoardName);
     });
-  }
-
-}
-
-@Component({
-  selector: 'poc-sidebar-add-board',
-  templateUrl: './sidebar.add-board.component.html',
-})
-export class AddBoardComponent {
-
-  constructor(
-    public dialogRef: MatDialogRef<AddBoardComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 
 }
