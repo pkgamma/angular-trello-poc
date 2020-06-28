@@ -3,7 +3,7 @@
 }
 
 .mat-sidenav {
-  min-width: 200px !important;
+  min-width: 300px !important;
   width: 70vw !important;
-  max-width: 300px !important;
+  max-width: 350px !important;
 }

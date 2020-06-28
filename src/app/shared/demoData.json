@@ -1,11 +1,48 @@
 [
     {
-      "title": "Board 1",
+      "title": "Apartment Renting",
       "id": 1,
       "content": [
         {
-          "title": "List 1",
+          "title": "To Do",
           "id": 1,
+          "content": [
+            {
+              "title": "Learn about areas",
+              "id": 1,
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla nibh quis lectus scelerisque, ut iaculis urna pharetra."
+            },
+            {
+              "title": "Tour around West Loop",
+              "id": 2,
+              "content": "Lorem ipsum dolor sit amet."
+            },
+            {
+              "title": "Ask around friends about Chicago",
+              "id": 3,
+              "content": "Consectetur adipiscing elit!"
+            }
+          ]
+        },
+        {
+          "title": "In Progress",
+          "id": 2,
+          "content": [
+            {
+              "title": "Item 1",
+              "id": 1,
+              "content": "Task Number 1"
+            },
+            {
+              "title": "Item 2",
+              "id": 2,
+              "content": "Task Number 2"
+            }
+          ]
+        },
+        {
+          "title": "Done",
+          "id": 2,
           "content": [
             {
               "title": "Item 1",
@@ -23,31 +60,15 @@
               "content": "Task Number 3"
             }
           ]
-        },
-        {
-          "title": "List 2",
-          "id": 2,
-          "content": [
-            {
-              "title": "Item 1",
-              "id": 1,
-              "content": "Task Number 1"
-            },
-            {
-              "title": "Item 2",
-              "id": 2,
-              "content": "Task Number 2"
-            }
-          ]
         }
       ]
     },
     {
-      "title": "Board 2",
+      "title": "App Project Infinity",
       "id": 2,
       "content": [
         {
-          "title": "List 1",
+          "title": "Ideas",
           "id": 1,
           "content": [
             {
@@ -78,7 +99,7 @@
           ]
         },
         {
-          "title": "List 2",
+          "title": "Committed",
           "id": 2,
           "content": [
             {

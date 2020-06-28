@@ -6,6 +6,10 @@
         <mat-toolbar color="primary">
             <span>Boards</span>
             <span class="spacer"></span>
+            <button mat-raised-button color="basic" (click)="onBoardSwitch(-1)">
+                <mat-icon>home</mat-icon>Home
+            </button>
+            <div style="width: 10px"></div>
             <button mat-raised-button color="accent" (click)="openNewBoardDialog()">
                 <mat-icon>add</mat-icon>New Board
             </button>
@@ -15,10 +19,6 @@
         <mat-nav-list>
             <a mat-list-item *ngFor="let board of boards" (click)="onBoardSwitch(board.id)"> {{ board.title }} </a>
         </mat-nav-list>
-
-        <button mat-raised-button color="accent" (click)="onBoardSwitch(-1)">
-            <mat-icon>add</mat-icon>Overview
-        </button>
 
     </mat-sidenav>
 
