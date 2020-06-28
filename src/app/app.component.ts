@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Output, EventEmitter, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DataService } from './data.service';
 import { Board, List, Item } from './data';
@@ -21,17 +21,23 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataService.getBoards().subscribe({
-      next: boards => {
-          this.boards = boards;
-      },
-      error: err => this.errorMessage = err
-  });
     this.dataService.setCurrentBoardId(-1);
+    this.boards = this.dataService.getBoards();
     this.currentBoardId = this.dataService.getCurrentBoardId();
+    this.currentBoardContent = this.dataService.getCurrentBoardContent();
+  }
+
+  onCardClick(evt: MouseEvent){
+    console.log(evt);
+  }
+
+  onBoardSwitch(id: number) {
+    this.dataService.setCurrentBoardId(id);
+    this.onRefresh();
   }
 
   onRefresh() {
+    // console.log("onRefresh")
     this.currentBoardId = this.dataService.getCurrentBoardId();
     this.currentBoardContent = this.dataService.getCurrentBoardContent();
   }

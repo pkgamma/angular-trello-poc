@@ -30,12 +30,7 @@ export class SidebarComponent implements OnInit {
   constructor(public dialog: MatDialog, private dataService: DataService) { }
 
   ngOnInit() {
-    this.dataService.getBoards().subscribe({
-      next: boards => {
-          this.boards = boards;
-      },
-      error: err => this.errorMessage = err
-  });
+    this.boards = this.dataService.getBoards();
   }
 
   onBoardSwitch(id: number) {

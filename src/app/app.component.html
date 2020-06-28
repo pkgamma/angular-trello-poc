@@ -1,12 +1,13 @@
 <poc-sidebar (boardSwitched)='onRefresh()'>
 
-  <div *ngIf="currentBoardId == -1">
-    <mat-card class="board-selection-card">
-      <mat-card-content>SELECT A BOARD FROM SIDEBAR</mat-card-content>
-    </mat-card>
-    <mat-card class="board-selection-card" *ngFor="let board of boards">
-      <mat-card-content>{{board.title}}</mat-card-content>
-    </mat-card>
+  <div *ngIf="currentBoardId == -1" class="board-selection-container">
+    <section class="mat-typography">
+      <h1>Welcome! Please select a board.</h1>
+    </section>
+    <div class="break"></div>
+
+    <button mat-raised-button class="board-selection-button" *ngFor="let board of boards" (click)="onBoardSwitch(board.id)">{{board.title}}</button>
+
   </div>
 
   <div cdkDropList cdkDropListOrientation="horizontal" class="board-container">
@@ -29,9 +30,6 @@
 
       <!-- Items cards (within a list) -->
       <div cdkDrag class="item-card" *ngFor="let item of list.content">{{ item.title }}</div>
-      <!-- <mat-card cdkDrag class="item-card" *ngFor="let movie of movies">
-        <mat-card-content>{{movie}}</mat-card-content>
-      </mat-card> -->
 
     </mat-card>
 
