@@ -1,16 +1,12 @@
 <mat-sidenav-container fullscreen>
 
     <!-- SIDEBAR -->
-    <mat-sidenav #sidenav mode="over">
+    <mat-sidenav #sidenav mode="over" position="end">
 
-        <mat-toolbar color="primary">
+        <mat-toolbar color="accent">
             <span>Boards</span>
             <span class="spacer"></span>
-            <button mat-raised-button color="basic" (click)="onBoardSwitch(-1)">
-                <mat-icon>home</mat-icon>Home
-            </button>
-            <div style="width: 10px"></div>
-            <button mat-raised-button color="accent" (click)="openNewBoardDialog()">
+            <button mat-raised-button color="primary" (click)="onAddBoardButtonClick()">
                 <mat-icon>add</mat-icon>New Board
             </button>
         </mat-toolbar>
@@ -27,14 +23,15 @@
 
         <!-- title bar -->
         <mat-toolbar color="primary">
-            <button mat-icon-button (click)="sidenav.toggle()">
-                <mat-icon>menu</mat-icon>
+            <span>Trello POC, built with Angular</span>
+            <span class="spacer"></span>
+            <button mat-stroked-button color="basic" (click)="onBoardSwitch(-1)">
+                <mat-icon>home</mat-icon>Home
             </button>
-            <span>Lists (of board ___)</span>
-            <!-- <span class="spacer"></span>
-            <button mat-raised-button color="accent">
-                <mat-icon>add</mat-icon>New List
-            </button> -->
+            <div style="width: 10px"></div>
+            <button mat-raised-button color="accent" (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>All Boards
+            </button>
         </mat-toolbar>
 
         <!-- everything else -->

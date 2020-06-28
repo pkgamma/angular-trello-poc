@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DataService } from './shared/data.service';
 import { Board, List, Item } from './shared/data';
 import { ListModifyComponent } from './popups/list-modify/list-modify.component'
+import { BoardModifyComponent } from './popups/board-modify/board-modify.component';
 
 @Component({
   selector: 'poc-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   currentBoardContent: List[];
   currentBoardListIds: string[];  
   newListName: string;
+  newBoardName: string;
 
   constructor(private dataService: DataService, public dialog: MatDialog) {
   }
@@ -68,6 +70,17 @@ export class AppComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
     }
+  }
+
+  onAddBoardButtonClick(): void {
+    const dialogRef = this.dialog.open(BoardModifyComponent, {
+      data: { newBoardName: this.newBoardName }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.newBoardName = result;
+      console.log('The board dialog was closed');
+      console.log(this.newBoardName);
+    });
   }
 
 }

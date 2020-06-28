@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit {
     this.boardSwitched.emit(id);
   }
 
-  openNewBoardDialog(): void {
+  onAddBoardButtonClick(): void {
     const dialogRef = this.dialog.open(BoardModifyComponent, {
       data: { newBoardName: this.newBoardName }
     });

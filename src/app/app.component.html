@@ -1,7 +1,7 @@
 <poc-sidebar (boardSwitched)='onBoardSwitch()'>
 
+  <!-- inner toolbar for board title and add board action -->
   <mat-toolbar>
-
     <mat-toolbar-row>
       <span *ngIf="currentBoardId == -1">Welcome! Please select a board.</span>
       <span *ngIf="currentBoardId != -1">{{this.currentBoardTitle}}</span>
@@ -10,43 +10,40 @@
       <button mat-raised-button (click)="onAddListButtonClick()" *ngIf="currentBoardContent">
         <mat-icon>add</mat-icon>New List
       </button>
-
     </mat-toolbar-row>
   </mat-toolbar>
 
+  <!-- board selection menu, shown when board ID is -1 (aka at menu) -->
   <div *ngIf="currentBoardId == -1" class="board-selection-container">
-
     <div class="flex-break"></div>
-    <button mat-raised-button class="board-selection-button" *ngFor="let board of boards"
+    <button mat-raised-button color="primary" class="board-selection-button" *ngFor="let board of boards"
       (click)="onBoardSelect(board.id)">{{board.title}}</button>
+    <button mat-raised-button class="board-selection-button" (click)="onAddBoardButtonClick()">
+      <mat-icon>add</mat-icon>New Board
+    </button>
   </div>
 
-  <div cdkDropList cdkDropListOrientation="horizontal" class="board-container"
+  <!-- main screen where lists within a board are displayed -->
+  <div class="board-container" cdkDropList cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="onListDrop($event)">
 
-    <!-- List cards (within a board) -->
+    <!-- list cards (within a board) -->
     <mat-card class="list-card" *ngFor="let list of currentBoardContent" cdkDropList
       (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.id}}"
       [cdkDropListConnectedTo]="this.currentBoardListIds" cdkDrag cdkDragLockAxis="x">
 
-      <div class="darg-handle" cdkDragHandle>
-        <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
-          </path>
-          <path d="M0 0h24v24H0z" fill="none"></path>
-        </svg>
-      </div>
-
       <mat-card-title>{{ list.title }}</mat-card-title>
-      <div style="height: 20px;"></div>
+      <mat-icon class="darg-handle" cdkDragHandle>open_with</mat-icon>
+      <div style="height: 10px;"></div>
 
-      <!-- Items cards (within a list) -->
-      <div cdkDrag class="item-card" *ngFor="let item of list.content">
-        {{ item.title }}
-        <br><br>
-        {{ item.content }}
-      </div>
+      <mat-card-content>
+        <!-- item boxes (within a list) -->
+        <div cdkDrag class="item-card" *ngFor="let item of list.content">
+          {{ item.title }}
+          <br><br>
+          {{ item.content }}
+        </div>
+      </mat-card-content>
 
     </mat-card>
 
