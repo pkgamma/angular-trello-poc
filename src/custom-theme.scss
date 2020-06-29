@@ -9,11 +9,80 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+// define a real custom palette (using http://mcg.mbitson.com)
+$md-catprimary: (
+    50 : #e7e7e7,
+    100 : #c2c2c2,
+    200 : #999999,
+    300 : #707070,
+    400 : #525252,
+    500 : #333333,
+    600 : #2e2e2e,
+    700 : #272727,
+    800 : #202020,
+    900 : #141414,
+    A100 : #ef6e6e,
+    A200 : #ea4040,
+    A400 : #f60000,
+    A700 : #dd0000,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$md-cataccent: (
+    50 : #fff9e2,
+    100 : #fff0b8,
+    200 : #ffe688,
+    300 : #ffdc58,
+    400 : #ffd535,
+    500 : #ffcd11,
+    600 : #ffc80f,
+    700 : #ffc10c,
+    800 : #ffba0a,
+    900 : #ffae05,
+    A100 : #ffffff,
+    A200 : #fffbf3,
+    A400 : #ffe8c0,
+    A700 : #ffdfa7,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$trello-poc-primary: mat-palette($mat-indigo);
-$trello-poc-accent: mat-palette($mat-pink, A200, A100, A400);
+$trello-poc-primary: mat-palette($md-catprimary, 500, 200, 50);
+$trello-poc-accent: mat-palette($md-cataccent, 500, 500, 500);
 
 // The warn palette is optional (defaults to red).
 $trello-poc-warn: mat-palette($mat-red);

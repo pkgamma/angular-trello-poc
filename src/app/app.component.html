@@ -1,7 +1,7 @@
 <poc-sidebar (boardSwitched)='onBoardSwitch()'>
 
   <!-- inner toolbar for board title and add board action -->
-  <mat-toolbar>
+  <mat-toolbar class="toolbar" color="accent">
     <mat-toolbar-row>
       <span *ngIf="currentBoardId == -1">Welcome! Please select a board.</span>
       <span *ngIf="currentBoardId != -1">{{this.currentBoardTitle}}</span>
@@ -32,28 +32,28 @@
       (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.id}}"
       [cdkDropListConnectedTo]="this.currentBoardListIds" cdkDrag cdkDragLockAxis="x">
 
-      <mat-card-title>{{ list.title }}</mat-card-title>
+      <mat-card-title class="title">{{ list.title }}</mat-card-title>
       <mat-icon class="darg-handle" cdkDragHandle>open_with</mat-icon>
-      <div style="height: 8px;"></div>
 
-      <mat-card-content>
-        <!-- item boxes (within a list) -->
-        <div cdkDrag class="item-card" *ngFor="let item of list.content">
-          {{ item.title }}
-          <br><br>
+
+      <!-- item boxes (within a list) -->
+      <div cdkDrag class="item-card" *ngFor="let item of list.content">
+        <mat-card-content>
+          <b>{{ item.title }}</b>
+          <br>
           {{ item.content }}
-        </div>
-      </mat-card-content>
-
-      <div style="height: 8px;"></div>
+        </mat-card-content>
+      </div>
+      
+      <div style="height: 4px;"></div>
 
       <mat-card-actions>
-        <button mat-stroked-button (click)="onAddItemButtonClick(list)" color="primary">New Item</button>
+        <button mat-flat-button (click)="onAddItemButtonClick(list)" color="accent">New Item</button>
       </mat-card-actions>
 
     </div>
 
-    <div style="display: inline-block; min-width: 16px;"></div>
+    <div style="display: inline-block; min-width: 8px;"></div>
 
   </div>
 

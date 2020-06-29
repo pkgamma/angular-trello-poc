@@ -3,7 +3,7 @@
     <!-- SIDEBAR -->
     <mat-sidenav #sidenav mode="over" position="end">
 
-        <mat-toolbar color="accent">
+        <mat-toolbar class="toolbar" color="accent">
             <span>Boards</span>
             <span class="spacer"></span>
             <button mat-raised-button color="primary" (click)="onAddBoardButtonClick()">
@@ -22,8 +22,8 @@
     <mat-sidenav-content>
 
         <!-- title bar -->
-        <mat-toolbar color="primary">
-            <span>Trello POC, built with Angular</span>
+        <mat-toolbar class="toolbar" color="primary">
+            <span>Trello POC</span>
             <span class="spacer"></span>
             <button mat-stroked-button color="basic" (click)="onBoardSwitch(-1)">
                 <mat-icon>home</mat-icon>Home

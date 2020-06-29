@@ -1,5 +1,17 @@
+.mat-button, 
+.mat-raised-button,
+.mat-flat-button, 
+.mat-stroked-button { 
+  border-radius: 0px; 
+}
+
 .spacer {
   flex: 1 1 auto;
+}
+
+.toolbar{
+  min-height:56px;
+  max-height:56px
 }
 
 .board-selection-container {
@@ -37,7 +49,7 @@
   overflow: auto;
   position: relative;
   padding: 16px;
-  border-radius: 4px;
+  border-radius: 0px;
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   align-items: center;
   justify-content: space-between;
@@ -55,11 +67,17 @@
   height: 24px;
 }
 
+.list-card .title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
 .item-card {
   padding: 10px;
   margin: 10px 0px;
   border: solid 1px rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
+  border-radius: 0px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -67,12 +85,24 @@
   box-sizing: border-box;
   cursor: move;
   background: white;
+  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-/* .item-card {
-  background-color: #f0f0f0;
-  margin-bottom: 10px;
-} */
+.item-card:active {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-preview {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
 
 /* Animate items as they're being sorted. */
 .cdk-drop-list-dragging .cdk-drag {
@@ -82,8 +112,4 @@
 /* Animate an item that has been dropped. */
 .cdk-drag-animating {
   transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.cdk-drag-placeholder {
-  opacity: 0;
 }

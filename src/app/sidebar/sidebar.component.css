@@ -1,5 +1,17 @@
+.mat-button, 
+.mat-raised-button,
+.mat-flat-button, 
+.mat-stroked-button { 
+  border-radius: 0px; 
+}
+
 .spacer {
   flex: 1 1 auto;
+}
+
+.toolbar{
+  min-height:56px;
+  max-height:56px
 }
 
 .mat-sidenav {
