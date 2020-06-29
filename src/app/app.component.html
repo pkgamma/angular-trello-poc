@@ -29,8 +29,8 @@
 
     <!-- list cards (within a board) -->
     <div class="list-card" *ngFor="let list of currentBoardContent" cdkDropList
-      (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.id}}"
-      [cdkDropListConnectedTo]="this.currentBoardListIds" cdkDrag cdkDragLockAxis="x">
+      (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.title}}"
+      [cdkDropListConnectedTo]="this.currentBoardListTitles" cdkDrag cdkDragLockAxis="x">
 
       <mat-card-title class="title">{{ list.title }}</mat-card-title>
       <mat-icon class="darg-handle" cdkDragHandle>open_with</mat-icon>

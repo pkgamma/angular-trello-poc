@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   currentBoardId: number;
   currentBoardTitle: string;
   currentBoardContent: List[];
-  currentBoardListIds: string[];  
+  currentBoardListTitles: string[];  
   newListName: string;
   newBoardName: string;
   newItemName: string;
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
     this.currentBoardTitle = this.dataService.getCurrentBoardTitle();
     this.currentBoardContent = this.dataService.getCurrentBoardContent();
     if (this.currentBoardContent) {
-      this.currentBoardListIds = this.currentBoardContent.map(list => "" + list.id);
+      this.currentBoardListTitles = this.currentBoardContent.map(list => "" + list.title);
     }
   }
 
