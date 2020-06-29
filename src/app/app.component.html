@@ -42,6 +42,8 @@
           <b>{{ item.title }}</b>
           <br>
           {{ item.content }}
+          <br>
+          <button mat-stroked-button (click)="onEditItemButtonClick(item)">Edit</button>
         </mat-card-content>
       </div>
       

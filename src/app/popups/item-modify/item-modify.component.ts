@@ -16,7 +16,7 @@ export class ItemModifyComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ItemModifyComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {operationMode: string},
+    @Inject(MAT_DIALOG_DATA) public data: {currentTitle: string, currentContent: string, operationMode: string},
     public formBuilder: FormBuilder
   ) { }
 
@@ -25,6 +25,12 @@ export class ItemModifyComponent implements OnInit {
       this.formGroup = this.formBuilder.group({
         title: ["", Validators.required],
         content: [""]
+      });
+    }
+    if (this.data.operationMode == "edit") {
+      this.formGroup = this.formBuilder.group({
+        title: [this.data.currentTitle, Validators.required],
+        content: [this.data.currentContent]
       });
     }
   }

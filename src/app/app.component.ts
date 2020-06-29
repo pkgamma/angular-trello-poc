@@ -88,10 +88,21 @@ export class AppComponent implements OnInit {
 
   onAddItemButtonClick(currentList: List): void {
     const dialogRef = this.dialog.open(ItemModifyComponent, {
-      data: {operationMode: "add"}
+      data: {currentTitle: "", currentContent: "", operationMode: "add"}
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result == null) {} else {currentList.content.unshift(result);}
+      if (result != null) {currentList.content.unshift(result);}
+      console.log('The item dialog was closed');
+      console.log(result);
+    });
+  }
+
+  onEditItemButtonClick(currentItem: Item): void {
+    const dialogRef = this.dialog.open(ItemModifyComponent, {
+      data: {currentTitle: currentItem.title, currentContent: currentItem.content, operationMode: "edit"}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {Object.assign(currentItem, result)}
       console.log('The item dialog was closed');
       console.log(result);
     });
