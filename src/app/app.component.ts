@@ -6,6 +6,7 @@ import { DataService } from './shared/data.service';
 import { Board, List, Item } from './shared/data';
 import { ListModifyComponent } from './popups/list-modify/list-modify.component'
 import { BoardModifyComponent } from './popups/board-modify/board-modify.component';
+import { ItemModifyComponent } from './popups/item-modify/item-modify.component';
 
 @Component({
   selector: 'poc-root',
@@ -21,6 +22,8 @@ export class AppComponent implements OnInit {
   currentBoardListIds: string[];  
   newListName: string;
   newBoardName: string;
+  newItemName: string;
+  newItemContent: string;
 
   constructor(private dataService: DataService, public dialog: MatDialog) {
   }
@@ -30,17 +33,6 @@ export class AppComponent implements OnInit {
     this.dataService.setCurrentBoardId(-1);
     this.boards = this.dataService.getBoards();
     this.currentBoardId = this.dataService.getCurrentBoardId();
-  }
-
-  onAddListButtonClick() {
-    const dialogRef = this.dialog.open(ListModifyComponent, {
-      data: { newListName: this.newListName }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.newListName = result;
-      console.log('The list dialog was closed');
-      console.log(this.newListName);
-    });
   }
 
   onBoardSelect(id: number) {
@@ -80,6 +72,28 @@ export class AppComponent implements OnInit {
       this.newBoardName = result;
       console.log('The board dialog was closed');
       console.log(this.newBoardName);
+    });
+  }
+
+  onAddListButtonClick() {
+    const dialogRef = this.dialog.open(ListModifyComponent, {
+      data: { newListName: this.newListName }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.newListName = result;
+      console.log('The list dialog was closed');
+      console.log(this.newListName);
+    });
+  }
+
+  onAddItemButtonClick(currentList: List): void {
+    const dialogRef = this.dialog.open(ItemModifyComponent, {
+      data: {operationMode: "add"}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == null) {} else {currentList.content.unshift(result);}
+      console.log('The item dialog was closed');
+      console.log(result);
     });
   }
 

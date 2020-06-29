@@ -28,13 +28,13 @@
     (cdkDropListDropped)="onListDrop($event)">
 
     <!-- list cards (within a board) -->
-    <mat-card class="list-card" *ngFor="let list of currentBoardContent" cdkDropList
+    <div class="list-card" *ngFor="let list of currentBoardContent" cdkDropList
       (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.id}}"
       [cdkDropListConnectedTo]="this.currentBoardListIds" cdkDrag cdkDragLockAxis="x">
 
       <mat-card-title>{{ list.title }}</mat-card-title>
       <mat-icon class="darg-handle" cdkDragHandle>open_with</mat-icon>
-      <div style="height: 10px;"></div>
+      <div style="height: 8px;"></div>
 
       <mat-card-content>
         <!-- item boxes (within a list) -->
@@ -45,7 +45,15 @@
         </div>
       </mat-card-content>
 
-    </mat-card>
+      <div style="height: 8px;"></div>
+
+      <mat-card-actions>
+        <button mat-stroked-button (click)="onAddItemButtonClick(list)" color="primary">New Item</button>
+      </mat-card-actions>
+
+    </div>
+
+    <div style="display: inline-block; min-width: 16px;"></div>
 
   </div>
 

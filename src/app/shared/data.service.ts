@@ -16,6 +16,7 @@ export class DataService {
 
   onAppCompInit() {
     this.boards = this.getBoards();
+    console.log('onAppCompInit() called')
   }
 
   // getter and setter for Boards
@@ -53,7 +54,7 @@ export class DataService {
 
   setCurrentBoardId(id: number) {
     this.currentBoardId = id;
-    console.log('current board ID set as ' + this.currentBoardId)
+    console.log('current board ID set as ' + this.currentBoardId + ', content:')
     // populate data for current board
     this.setCurrentBoardContent(id);
   }

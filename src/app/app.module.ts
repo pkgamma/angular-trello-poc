@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //Angular Material Components
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -41,18 +41,21 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ListModifyComponent } from './popups/list-modify/list-modify.component';
 import { BoardModifyComponent } from './popups/board-modify/board-modify.component';
+import { ItemModifyComponent } from './popups/item-modify/item-modify.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     ListModifyComponent,
-    BoardModifyComponent
+    BoardModifyComponent,
+    ItemModifyComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     DragDropModule,
     HttpClientModule,
     MatCheckboxModule,
