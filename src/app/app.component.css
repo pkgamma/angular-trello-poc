@@ -15,7 +15,7 @@
 }
 
 .board-selection-container {
-  margin: 30px;
+  margin: 32px;
   display: flex;
   flex-wrap: wrap;
 }
