@@ -75,8 +75,7 @@ export class BoardModifyComponent implements OnInit {
         title: "_delete",
       });
       this.dialogRef.close(this.formGroup.value);
- }
-
+    }
   }
 
 }
