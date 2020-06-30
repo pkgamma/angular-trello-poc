@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Board, List, Item } from './data'
 
 declare var require: any
@@ -15,23 +14,26 @@ export class DataService {
   currentBoardTitle: string;
   currentBoardContent: List[];
 
+  private _boards: Board[] = require('./demoData.json');
+
+  /**
+   * Called once ever in app lifecycle by app component
+   */
   onAppCompInit() {
     this.boards = this.getBoards();
     console.log('onAppCompInit() called')
   }
 
-  // getter and setter for Boards
-  // ================================
-
-  private _boards: Board[] = require('./demoData.json');
-
+  /**
+   * Returns array of all the board objects
+   */
   getBoards(): Board[] {
     return this._boards;
   }
 
-  // generator for new board's ID, guaranteed to be unique
-  // ================================
-
+  /**
+   * Generator for new board's ID, guaranteed to be unique
+   */
   getNextUniqueId(): number {
     let id = 0;
     for (let board of this.boards) {
@@ -42,37 +44,39 @@ export class DataService {
     return id + 1;
   }
 
-  // setBoards(URL: string) {
-  //   this._boards = require(URL);
-  //   this.onAppCompInit();
-  // }
-
-  // getter for Board
-  // ================================
-
+  /**
+   * Returns current board object
+   */
   getCurrentBoard(): Board {
     return this.currentBoard;
   }
 
-  // getter and setter for Board Title
-  // ================================
-
+  /**
+   * Returns current board title
+   */
   getCurrentBoardTitle(): string {
     return this.currentBoardTitle;
   }
 
+  /**
+   * Sets local board title based on string input
+   * @param title input board title
+   */
   setCurrentBoardTitle(title: string) {
     this.currentBoardTitle = title;
   }
 
-  // getter & setter for Board ID
-  // ================================
-  // an ID of -1 is home (no board selected)
-
+  /**
+   * Returns current board ID, an ID of -1 is menu (no board)
+   */
   getCurrentBoardId(): number {
     return this.currentBoardId;
   }
 
+  /**
+   * Sets local board id based on ID input, then sets content as well
+   * @param id input board id
+   */
   setCurrentBoardId(id: number) {
     this.currentBoardId = id;
     console.log('current board ID set as ' + this.currentBoardId + ', content:')
@@ -80,13 +84,17 @@ export class DataService {
     this.setCurrentBoardContent(id);
   }
 
-  // getter & setter for Board Content
-  // ================================
-
+  /**
+   * Returns current board content, also the array of lists
+   */
   getCurrentBoardContent(): List[] {
     return this.currentBoardContent;
   }
 
+  /**
+   * Sets local board content based on ID input
+   * @param id input board id
+   */
   setCurrentBoardContent(id: number) {
     if (id == -1) { this.currentBoardContent = null }
     for (let board of this.boards) {
@@ -103,9 +111,7 @@ export class DataService {
   // =======================================================
 
   // private URL = './demoData.json';
-
-  // constructor(private http: HttpClient) {
-  // }
+  // constructor(private http: HttpClient) { }
 
   // // get boards JSON object from URL
   // getBoards(): Observable<Board[]> {

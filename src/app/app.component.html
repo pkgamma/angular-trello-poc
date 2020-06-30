@@ -1,6 +1,6 @@
 <poc-sidebar (boardSwitched)='onBoardSwitch()'>
 
-  <!-- board selection menu, shown when board ID is -1 (aka at menu) -->
+  <!-- main board selection menu, shown when board ID is -1 (aka at menu) -->
   <div *ngIf="currentBoardId == -1" class="board-selection-container">
     <p style="font-size: 24px; margin-bottom: 32px;">Welcome! Please select a board.</p>
     <div class="flex-break"></div>
@@ -29,18 +29,15 @@
   <!-- main screen where lists within a board are displayed -->
   <div class="board-container" cdkDropList cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="onListDrop($event)">
-
     <div style="display: inline-block; min-width: 8px;"></div>
 
     <!-- list cards (within a board) -->
     <div class="list-card" *ngFor="let list of currentBoardContent" cdkDropList
       (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.title}}"
       [cdkDropListConnectedTo]="this.currentBoardListTitles" cdkDrag cdkDragLockAxis="x">
-
       <mat-card-title class="title">{{ list.title }}</mat-card-title>
       <mat-icon class="edit-button" (click)="onEditList(list)">edit</mat-icon>
       <mat-icon class="darg-handle" cdkDragHandle>open_with</mat-icon>
-
       <div style="height: 8px;"></div>
 
       <!-- item boxes (within a list) -->
@@ -58,20 +55,13 @@
       </div>
 
       <div style="height: 4px;"></div>
-
       <mat-card-actions>
         <button mat-flat-button (click)="onAddItem(list)" color="accent">
           <mat-icon>add</mat-icon>New Item
         </button>
-
       </mat-card-actions>
-
-
-
     </div>
-
     <div style="display: inline-block; min-width: 8px;"></div>
-
   </div>
-
+  
 </poc-sidebar>
