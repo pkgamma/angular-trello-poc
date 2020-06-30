@@ -1,6 +1,7 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
-    <h1 mat-dialog-title>Add New Item</h1>
+    <h1 *ngIf="this.data.operationMode == 'add'" mat-dialog-title>Add New Item</h1>
+    <h1 *ngIf="this.data.operationMode == 'edit'" mat-dialog-title>Edit Item</h1>
 
     <div mat-dialog-content>
         <p>What's the item title and description?</p>
@@ -15,7 +16,8 @@
 
     <mat-dialog-actions align="end">
         <button mat-button (mousedown)="onNoClick()">Cancel</button>
-        <button mat-button color="primary" [disabled]="formGroup.invalid">Done</button>
+        <button *ngIf="this.data.operationMode == 'add'" mat-button color="primary" [disabled]="formGroup.invalid">Add Item</button>
+        <button *ngIf="this.data.operationMode == 'edit'" mat-button color="primary" [disabled]="formGroup.invalid">Save</button>
     </mat-dialog-actions>
 
 </form>

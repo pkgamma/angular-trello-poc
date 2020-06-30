@@ -1,14 +1,17 @@
-<h1 mat-dialog-title>Add New List (doesn't work yet)</h1>
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
-<div mat-dialog-content>
-    <p>What's the name of the list?</p>
-    <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput [(ngModel)]="data.newListName">
-      </mat-form-field>
-</div>
+    <h1 mat-dialog-title>Add New List (doesn't work yet)</h1>
 
-<div mat-dialog-actions align="end">
-    <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button color="primary" [mat-dialog-close]="data.newListName" cdkFocusInitial>Add List</button>
-</div>
+    <div mat-dialog-content>
+        <p>What's the name of the list?</p>
+        <mat-form-field>
+            <input matInput placeholder="Title" required formControlName="title">
+        </mat-form-field>
+    </div>
+
+    <mat-dialog-actions align="end">
+        <button mat-button (mousedown)="onNoClick()">Cancel</button>
+        <button mat-button color="primary" [disabled]="formGroup.invalid">Add List</button>
+    </mat-dialog-actions>
+
+</form>

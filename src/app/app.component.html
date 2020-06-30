@@ -27,6 +27,8 @@
   <div class="board-container" cdkDropList cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="onListDrop($event)">
 
+    <div style="display: inline-block; min-width: 8px;"></div>
+
     <!-- list cards (within a board) -->
     <div class="list-card" *ngFor="let list of currentBoardContent" cdkDropList
       (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.title}}"

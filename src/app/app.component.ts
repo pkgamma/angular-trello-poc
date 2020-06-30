@@ -77,12 +77,12 @@ export class AppComponent implements OnInit {
 
   onAddListButtonClick() {
     const dialogRef = this.dialog.open(ListModifyComponent, {
-      data: { newListName: this.newListName }
+      data: {newListName: this.newListName}
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.newListName = result;
+      if (result != null) {this.currentBoardContent.unshift(result);}
       console.log('The list dialog was closed');
-      console.log(this.newListName);
+      console.log(result);
     });
   }
 

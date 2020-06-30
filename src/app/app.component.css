@@ -34,7 +34,6 @@
 }
 
 .board-container {
-  margin-left: 8px;
   display: flex;
   flex-direction: row;
   overflow-x: auto;

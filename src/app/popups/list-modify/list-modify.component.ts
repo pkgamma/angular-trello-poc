@@ -1,11 +1,9 @@
 import { Component, Inject, OnInit, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Board, List, Item } from '../../shared/data';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
-export interface DialogData {
-  newListName: string;
-}
+import { Board, List, Item } from '../../shared/data';
 
 @Component({
   selector: 'poc-list-modify',
@@ -14,15 +12,27 @@ export interface DialogData {
 })
 export class ListModifyComponent implements OnInit {
 
-  ngOnInit(): void {
-  }
+  formGroup: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<ListModifyComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: {newListName: string},
+    public formBuilder: FormBuilder
+  ) { }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  ngOnInit() {
+    this.formGroup = this.formBuilder.group({
+        title: ["", Validators.required]
+      });
+    
+  }
+
+  onSubmit() {
+    this.dialogRef.close({"title": this.formGroup.value.title, "content": []});
+  }
+
+  onNoClick() {
+    this.dialogRef.close(null);
   }
 
 }
