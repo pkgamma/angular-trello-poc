@@ -40,7 +40,17 @@ export class ItemModifyComponent implements OnInit {
   }
 
   onNoClick() {
-    this.dialogRef.close(null);
+    this.formGroup.patchValue({
+      title: "_cancel",
+    });
+    this.dialogRef.close(this.formGroup.value);
+  }
+
+  onDeleteClick() {
+    this.formGroup.patchValue({
+      title: "_delete",
+    });
+    this.dialogRef.close(this.formGroup.value);
   }
 
 }

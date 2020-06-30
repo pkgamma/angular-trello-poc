@@ -16,23 +16,44 @@ export class ListModifyComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ListModifyComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {newListName: string},
+    @Inject(MAT_DIALOG_DATA) public data: { currentTitle: string, currentContent: Item[], operationMode: string },
     public formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.formGroup = this.formBuilder.group({
+    if (this.data.operationMode == "add") {
+      this.formGroup = this.formBuilder.group({
         title: ["", Validators.required]
       });
-    
+    }
+    if (this.data.operationMode == "edit") {
+      this.formGroup = this.formBuilder.group({
+        title: [this.data.currentTitle, Validators.required]
+      });
+    }
   }
 
   onSubmit() {
-    this.dialogRef.close({"title": this.formGroup.value.title, "content": []});
+    if (this.data.operationMode == "add") {
+      this.dialogRef.close({ "title": this.formGroup.value.title, "content": [] });
+    }
+    if (this.data.operationMode == "edit") {
+      this.dialogRef.close({ "title": this.formGroup.value.title, "content": this.data.currentContent });
+    }
   }
 
   onNoClick() {
-    this.dialogRef.close(null);
+    this.formGroup.patchValue({
+      title: "_cancel",
+    });
+    this.dialogRef.close(this.formGroup.value);
+  }
+
+  onDeleteClick() {
+    this.formGroup.patchValue({
+      title: "_delete",
+    });
+    this.dialogRef.close(this.formGroup.value);
   }
 
 }

@@ -1,17 +1,20 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
-    <h1 mat-dialog-title>Add New Board (doesn't work yet)</h1>
+    <h1 *ngIf="this.data.operationMode == 'add'" mat-dialog-title>Add New Board</h1>
+    <h1 *ngIf="this.data.operationMode == 'edit'" mat-dialog-title>Edit Board</h1>
 
     <div mat-dialog-content>
-        <p>What's the name of the board?</p>
+        <p>What's the board title?</p>
         <mat-form-field>
             <input matInput placeholder="Title" required formControlName="title">
         </mat-form-field>
     </div>
-
+    
     <mat-dialog-actions align="end">
+        <button *ngIf="this.data.operationMode == 'edit'" mat-button color="warn" (mousedown)="onDeleteClick()">Delete Board</button>
         <button mat-button (mousedown)="onNoClick()">Cancel</button>
-        <button mat-button color="primary" [disabled]="formGroup.invalid">Add Board</button>
+        <button *ngIf="this.data.operationMode == 'add'" mat-button color="primary" [disabled]="formGroup.invalid">Add Board</button>
+        <button *ngIf="this.data.operationMode == 'edit'" mat-button color="primary" [disabled]="formGroup.invalid">Save</button>
     </mat-dialog-actions>
 
 </form>

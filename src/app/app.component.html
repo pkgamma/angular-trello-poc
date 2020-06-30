@@ -7,6 +7,10 @@
       <span *ngIf="currentBoardId != -1">{{this.currentBoardTitle}}</span>
       <span class="spacer"></span>
       <!-- TODO add style -->
+      <button mat-raised-button (click)="onEditBoardButtonClick()" *ngIf="currentBoardContent">
+        <mat-icon>edit</mat-icon>Edit This Board
+      </button>
+      <div style="width: 10px"></div>
       <button mat-raised-button (click)="onAddListButtonClick()" *ngIf="currentBoardContent">
         <mat-icon>add</mat-icon>New List
       </button>
@@ -45,15 +49,25 @@
           <br>
           {{ item.content }}
           <br>
-          <button mat-stroked-button (click)="onEditItemButtonClick(item)">Edit</button>
+          <button mat-stroked-button (click)="onEditItemButtonClick(list, item)">
+            Edit Item
+          </button>
         </mat-card-content>
       </div>
       
       <div style="height: 4px;"></div>
 
       <mat-card-actions>
-        <button mat-flat-button (click)="onAddItemButtonClick(list)" color="accent">New Item</button>
+        <button mat-flat-button (click)="onAddItemButtonClick(list)" color="accent">
+          <mat-icon>add</mat-icon>New Item
+        </button>
+      
+        <button mat-flat-button style="margin-left: 10px;" (click)="onEditListButtonClick(list)" color="primary">
+          <mat-icon>edit</mat-icon>Edit List
+        </button>
       </mat-card-actions>
+
+
 
     </div>
 

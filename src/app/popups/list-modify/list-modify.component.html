@@ -1,6 +1,7 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
-    <h1 mat-dialog-title>Add New List (doesn't work yet)</h1>
+    <h1 *ngIf="this.data.operationMode == 'add'" mat-dialog-title>Add New List</h1>
+    <h1 *ngIf="this.data.operationMode == 'edit'" mat-dialog-title>Edit List</h1>
 
     <div mat-dialog-content>
         <p>What's the name of the list?</p>
@@ -10,8 +11,10 @@
     </div>
 
     <mat-dialog-actions align="end">
+        <button *ngIf="this.data.operationMode == 'edit'" mat-button color="warn" (mousedown)="onDeleteClick()">Delete List</button>
         <button mat-button (mousedown)="onNoClick()">Cancel</button>
-        <button mat-button color="primary" [disabled]="formGroup.invalid">Add List</button>
+        <button *ngIf="this.data.operationMode == 'add'" mat-button color="primary" [disabled]="formGroup.invalid">Add List</button>
+        <button *ngIf="this.data.operationMode == 'edit'" mat-button color="primary" [disabled]="formGroup.invalid">Save</button>
     </mat-dialog-actions>
 
 </form>

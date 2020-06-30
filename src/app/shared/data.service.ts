@@ -10,6 +10,7 @@ declare var require: any
 export class DataService {
 
   boards: Board[];
+  currentBoard: Board;
   currentBoardId: number;
   currentBoardTitle: string;
   currentBoardContent: List[];
@@ -45,6 +46,13 @@ export class DataService {
   //   this._boards = require(URL);
   //   this.onAppCompInit();
   // }
+
+  // getter for Board
+  // ================================
+
+  getCurrentBoard(): Board {
+    return this.currentBoard;
+  }
 
   // getter and setter for Board Title
   // ================================
@@ -83,6 +91,7 @@ export class DataService {
     if (id == -1) { this.currentBoardContent = null }
     for (let board of this.boards) {
       if (board.id == id) {
+        this.currentBoard = board;
         this.currentBoardContent = board.content;
         this.setCurrentBoardTitle(board.title);
       }

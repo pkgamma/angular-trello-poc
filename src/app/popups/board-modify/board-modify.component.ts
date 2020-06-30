@@ -18,24 +18,41 @@ export class BoardModifyComponent implements OnInit {
   constructor(
     private dataService: DataService,
     public dialogRef: MatDialogRef<BoardModifyComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {newBoardName: string},
+    @Inject(MAT_DIALOG_DATA) public data: { currentBoard: Board, operationMode: string },
     public formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.formGroup = this.formBuilder.group({
+    if (this.data.operationMode == "add") {
+      this.formGroup = this.formBuilder.group({
         title: ["", Validators.required]
       });
-    
+    }
+    if (this.data.operationMode == "edit") {
+      this.formGroup = this.formBuilder.group({
+        title: [this.data.currentBoard.title, Validators.required]
+      });
+    }
+
   }
 
   onSubmit() {
     let id = this.dataService.getNextUniqueId();
-    this.dialogRef.close({"title": this.formGroup.value.title, "id": id, "content": []});
+    this.dialogRef.close({ "title": this.formGroup.value.title, "id": id, "content": this.data.currentBoard.content });
   }
 
   onNoClick() {
-    this.dialogRef.close(null);
+    this.formGroup.patchValue({
+      title: "_cancel",
+    });
+    this.dialogRef.close(this.formGroup.value);
+  }
+
+  onDeleteClick() {
+    this.formGroup.patchValue({
+      title: "_delete",
+    });
+    this.dialogRef.close(this.formGroup.value);
   }
 
 }

@@ -13,8 +13,9 @@
             <input matInput placeholder="Description" formControlName="content">
         </mat-form-field>
     </div>
-
+    
     <mat-dialog-actions align="end">
+        <button *ngIf="this.data.operationMode == 'edit'" mat-button color="warn" (mousedown)="onDeleteClick()">Delete Item</button>
         <button mat-button (mousedown)="onNoClick()">Cancel</button>
         <button *ngIf="this.data.operationMode == 'add'" mat-button color="primary" [disabled]="formGroup.invalid">Add Item</button>
         <button *ngIf="this.data.operationMode == 'edit'" mat-button color="primary" [disabled]="formGroup.invalid">Save</button>

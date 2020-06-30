@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   currentBoardId: number;
   currentBoardTitle: string;
   currentBoardContent: List[];
-  currentBoardListTitles: string[];  
+  currentBoardListTitles: string[];
   newListName: string;
   newBoardName: string;
   newItemName: string;
@@ -66,10 +66,31 @@ export class AppComponent implements OnInit {
 
   onAddBoardButtonClick(): void {
     const dialogRef = this.dialog.open(BoardModifyComponent, {
-      data: {newBoardName: this.newBoardName}
+      data: { currentBoard: {}, operationMode: "add" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {this.boards.unshift(result);}
+      if (result.title != "_cancel") { this.boards.unshift(result); }
+      console.log('The board dialog was closed');
+      console.log(result);
+    });
+  }
+
+  onEditBoardButtonClick() {
+    let currentBoard = this.dataService.getCurrentBoard();
+    const dialogRef = this.dialog.open(BoardModifyComponent, {
+      data: { currentBoard: currentBoard, operationMode: "edit" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.title == "_delete") { 
+        this.boards.splice(this.boards.indexOf(currentBoard), 1);
+        this.dataService.setCurrentBoardId(-1);
+        this.onBoardSwitch();
+      } else if (result.title == "_cancel") { 
+      } else { 
+        Object.assign(currentBoard, result);
+        this.currentBoardTitle = result.title;
+      };
+      
       console.log('The board dialog was closed');
       console.log(result);
     });
@@ -77,10 +98,24 @@ export class AppComponent implements OnInit {
 
   onAddListButtonClick() {
     const dialogRef = this.dialog.open(ListModifyComponent, {
-      data: {newListName: this.newListName}
+      data: { currentTitle: "", currentContent: [], operationMode: "add" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {this.currentBoardContent.unshift(result);}
+      if (result.title != "_cancel") { this.currentBoardContent.unshift(result); };
+      console.log('The list dialog was closed');
+      console.log(result);
+    });
+  }
+
+  onEditListButtonClick(currentList: List) {
+    const dialogRef = this.dialog.open(ListModifyComponent, {
+      data: { currentTitle: currentList.title, currentContent: currentList.content, operationMode: "edit" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.title == "_delete") { this.currentBoardContent.splice(this.currentBoardContent.indexOf(currentList), 1) }
+      else if (result.title == "_cancel") { }
+      else { Object.assign(currentList, result) };
+
       console.log('The list dialog was closed');
       console.log(result);
     });
@@ -88,21 +123,24 @@ export class AppComponent implements OnInit {
 
   onAddItemButtonClick(currentList: List): void {
     const dialogRef = this.dialog.open(ItemModifyComponent, {
-      data: {currentTitle: "", currentContent: "", operationMode: "add"}
+      data: { currentTitle: "", currentContent: "", operationMode: "add" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {currentList.content.unshift(result);}
+      if (result.title != "_cancel") { currentList.content.unshift(result); };
       console.log('The item dialog was closed');
       console.log(result);
     });
   }
 
-  onEditItemButtonClick(currentItem: Item): void {
+  onEditItemButtonClick(currentList: List, currentItem: Item): void {
     const dialogRef = this.dialog.open(ItemModifyComponent, {
-      data: {currentTitle: currentItem.title, currentContent: currentItem.content, operationMode: "edit"}
+      data: { currentTitle: currentItem.title, currentContent: currentItem.content, operationMode: "edit" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {Object.assign(currentItem, result)}
+      if (result.title == "_delete") { currentList.content.splice(currentList.content.indexOf(currentItem), 1) }
+      else if (result.title == "_cancel") { }
+      else { Object.assign(currentItem, result) };
+
       console.log('The item dialog was closed');
       console.log(result);
     });
