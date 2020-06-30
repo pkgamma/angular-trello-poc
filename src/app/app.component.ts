@@ -66,12 +66,12 @@ export class AppComponent implements OnInit {
 
   onAddBoardButtonClick(): void {
     const dialogRef = this.dialog.open(BoardModifyComponent, {
-      data: { newBoardName: this.newBoardName }
+      data: {newBoardName: this.newBoardName}
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.newBoardName = result;
+      if (result != null) {this.boards.unshift(result);}
       console.log('The board dialog was closed');
-      console.log(this.newBoardName);
+      console.log(result);
     });
   }
 

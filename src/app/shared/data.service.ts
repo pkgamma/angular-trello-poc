@@ -28,6 +28,19 @@ export class DataService {
     return this._boards;
   }
 
+  // generator for new board's ID, guaranteed to be unique
+  // ================================
+
+  getNextUniqueId(): number {
+    let id = 0;
+    for (let board of this.boards) {
+      if (board.id > id) {
+        id = board.id;
+      }
+    }
+    return id + 1;
+  }
+
   // setBoards(URL: string) {
   //   this._boards = require(URL);
   //   this.onAppCompInit();
