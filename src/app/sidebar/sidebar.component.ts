@@ -1,8 +1,9 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Board, List, Item } from '../shared/data';
 import { DataService } from '../shared/data.service';
+import { Board, List, Item } from '../shared/data';
+
 import { BoardModifyComponent } from '../popups/board-modify/board-modify.component';
 
 @Component({
@@ -32,7 +33,7 @@ export class SidebarComponent implements OnInit {
     this.boardSwitched.emit(id);
   }
 
-  onAddBoardButtonClick(): void {
+  onAddBoard(): void {
     const dialogRef = this.dialog.open(BoardModifyComponent, {
       data: {currentBoard: {}, operationMode: "add"}
     });

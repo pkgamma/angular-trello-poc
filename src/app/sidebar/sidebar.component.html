@@ -6,7 +6,7 @@
         <mat-toolbar class="toolbar" color="accent">
             <span>Boards</span>
             <span class="spacer"></span>
-            <button mat-raised-button color="primary" (click)="onAddBoardButtonClick()">
+            <button mat-raised-button color="primary" (click)="onAddBoard()">
                 <mat-icon>add</mat-icon>New Board
             </button>
         </mat-toolbar>
@@ -25,7 +25,7 @@
         <mat-toolbar class="toolbar" color="primary">
             <span style="font-weight: bold;">Trello POC</span>
             <span class="spacer"></span>
-            <button mat-stroked-button color="basic" (click)="onBoardSwitch(-1)">
+            <button mat-raised-button color="accent" (click)="onBoardSwitch(-1)">
                 <mat-icon>home</mat-icon>Home
             </button>
             <div style="width: 10px"></div>

@@ -5,15 +5,19 @@
     <mat-toolbar-row>
       <span *ngIf="currentBoardId == -1">Welcome! Please select a board.</span>
       <span *ngIf="currentBoardId != -1">{{this.currentBoardTitle}}</span>
-      <span class="spacer"></span>
-      <!-- TODO add style -->
-      <button mat-raised-button (click)="onEditBoardButtonClick()" *ngIf="currentBoardContent">
-        <mat-icon>edit</mat-icon>Edit This Board
-      </button>
+
       <div style="width: 10px"></div>
-      <button mat-raised-button (click)="onAddListButtonClick()" *ngIf="currentBoardContent">
+
+      <button mat-raised-button (click)="onEditBoard()" *ngIf="currentBoardContent">
+        <mat-icon>edit</mat-icon>Edit / Delete
+      </button>
+
+      <span class="spacer"></span>
+      
+      <button mat-raised-button (click)="onAddList()" *ngIf="currentBoardContent">
         <mat-icon>add</mat-icon>New List
       </button>
+
     </mat-toolbar-row>
   </mat-toolbar>
 
@@ -22,7 +26,7 @@
     <div class="flex-break"></div>
     <button mat-raised-button color="primary" class="board-selection-button" *ngFor="let board of boards"
       (click)="onBoardSelect(board.id)">{{board.title}}</button>
-    <button mat-raised-button class="board-selection-button" (click)="onAddBoardButtonClick()">
+    <button mat-raised-button class="board-selection-button" (click)="onAddBoard()">
       <mat-icon>add</mat-icon>New Board
     </button>
   </div>
@@ -39,8 +43,10 @@
       [cdkDropListConnectedTo]="this.currentBoardListTitles" cdkDrag cdkDragLockAxis="x">
 
       <mat-card-title class="title">{{ list.title }}</mat-card-title>
+      <mat-icon class="edit-button" (click)="onEditList(list)">edit</mat-icon>
       <mat-icon class="darg-handle" cdkDragHandle>open_with</mat-icon>
 
+      <div style="height: 8px;"></div>
 
       <!-- item boxes (within a list) -->
       <div cdkDrag class="item-card" *ngFor="let item of list.content">
@@ -49,22 +55,20 @@
           <br>
           {{ item.content }}
           <br>
-          <button mat-stroked-button (click)="onEditItemButtonClick(list, item)">
+          <!-- <button mat-stroked-button (click)="onEditItem(list, item)">
             Edit Item
-          </button>
+          </button> -->
         </mat-card-content>
+        <mat-icon class="edit-button" (click)="onEditItem(list, item)">edit</mat-icon>
       </div>
       
       <div style="height: 4px;"></div>
 
       <mat-card-actions>
-        <button mat-flat-button (click)="onAddItemButtonClick(list)" color="accent">
+        <button mat-flat-button (click)="onAddItem(list)" color="accent">
           <mat-icon>add</mat-icon>New Item
         </button>
-      
-        <button mat-flat-button style="margin-left: 10px;" (click)="onEditListButtonClick(list)" color="primary">
-          <mat-icon>edit</mat-icon>Edit List
-        </button>
+
       </mat-card-actions>
 
 

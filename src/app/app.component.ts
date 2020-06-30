@@ -4,8 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { DataService } from './shared/data.service';
 import { Board, List, Item } from './shared/data';
-import { ListModifyComponent } from './popups/list-modify/list-modify.component'
+
 import { BoardModifyComponent } from './popups/board-modify/board-modify.component';
+import { ListModifyComponent } from './popups/list-modify/list-modify.component'
 import { ItemModifyComponent } from './popups/item-modify/item-modify.component';
 
 @Component({
@@ -20,10 +21,6 @@ export class AppComponent implements OnInit {
   currentBoardTitle: string;
   currentBoardContent: List[];
   currentBoardListTitles: string[];
-  newListName: string;
-  newBoardName: string;
-  newItemName: string;
-  newItemContent: string;
 
   constructor(private dataService: DataService, public dialog: MatDialog) {
   }
@@ -64,7 +61,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onAddBoardButtonClick(): void {
+  onAddBoard(): void {
     const dialogRef = this.dialog.open(BoardModifyComponent, {
       data: { currentBoard: {}, operationMode: "add" }
     });
@@ -75,7 +72,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onEditBoardButtonClick() {
+  onEditBoard() {
     let currentBoard = this.dataService.getCurrentBoard();
     const dialogRef = this.dialog.open(BoardModifyComponent, {
       data: { currentBoard: currentBoard, operationMode: "edit" }
@@ -83,8 +80,7 @@ export class AppComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result.title == "_delete") { 
         this.boards.splice(this.boards.indexOf(currentBoard), 1);
-        this.dataService.setCurrentBoardId(-1);
-        this.onBoardSwitch();
+        this.onBoardSelect(-1);
       } else if (result.title == "_cancel") { 
       } else { 
         Object.assign(currentBoard, result);
@@ -96,7 +92,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onAddListButtonClick() {
+  onAddList() {
     const dialogRef = this.dialog.open(ListModifyComponent, {
       data: { currentTitle: "", currentContent: [], operationMode: "add" }
     });
@@ -107,7 +103,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onEditListButtonClick(currentList: List) {
+  onEditList(currentList: List) {
     const dialogRef = this.dialog.open(ListModifyComponent, {
       data: { currentTitle: currentList.title, currentContent: currentList.content, operationMode: "edit" }
     });
@@ -121,7 +117,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onAddItemButtonClick(currentList: List): void {
+  onAddItem(currentList: List): void {
     const dialogRef = this.dialog.open(ItemModifyComponent, {
       data: { currentTitle: "", currentContent: "", operationMode: "add" }
     });
@@ -132,7 +128,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onEditItemButtonClick(currentList: List, currentItem: Item): void {
+  onEditItem(currentList: List, currentItem: Item): void {
     const dialogRef = this.dialog.open(ItemModifyComponent, {
       data: { currentTitle: currentItem.title, currentContent: currentItem.content, operationMode: "edit" }
     });
