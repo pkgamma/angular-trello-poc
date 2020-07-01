@@ -10,22 +10,29 @@ describe('AppComponent', () => {
     }).compileComponents();
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+  // it('should create the app', () => {
+  //   const fixture = TestBed.createComponent(AppComponent);
+  //   const app = fixture.componentInstance;
+  //   expect(app).toBeTruthy();
+  // });
 
-  it(`should have as title 'trello-poc'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('trello-poc');
-  });
+  // it(`should have as title 'Trello POC'`, () => {
+  //   const fixture = TestBed.createComponent(AppComponent);
+  //   const app = fixture.componentInstance;
+  //   expect(app.title).toEqual('Trello POC');
+  // });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('trello-poc app is running!');
-  });
+  // it('#getValue should return value', () => {
+  //   const spy = jest.spyOn(someService, 'getValue');
+  //   spy.mockReturnValue('stub value');
+  //   expect(service.getValue()).toBe('stub value');
+  //   expect(spy).toHaveBeenCalled();
+  // });
+
+  // it('should render title', () => {
+  //   const fixture = TestBed.createComponent(AppComponent);
+  //   fixture.detectChanges();
+  //   const compiled = fixture.nativeElement;
+  //   expect(compiled.querySelector('.board-selection-container').textContent).toContain('Welcome! Please select a board.');
+  // });
 });

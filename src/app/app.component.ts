@@ -14,6 +14,8 @@ import { ItemModifyComponent } from './popups/item-modify/item-modify.component'
 })
 export class AppComponent implements OnInit {
 
+  title: string = "Trello POC";
+
   boards: Board[];
   currentBoardId: number;
   currentBoardTitle: string;
