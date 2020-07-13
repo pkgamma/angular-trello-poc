@@ -12,7 +12,7 @@
         </mat-toolbar>
 
         <!-- Show list of boards -->
-        <mat-nav-list>
+        <mat-nav-list *ngIf="boards$ | async as boards">
             <a mat-list-item *ngFor="let board of boards" (click)="onBoardSelect(board.id)"> {{ board.title }} </a>
         </mat-nav-list>
 

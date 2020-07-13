@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Board, List, Item } from './data'
 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
+
 declare var require: any
 
 @Injectable({
@@ -107,30 +111,33 @@ export class DataService {
     console.log(this.currentBoardContent);
   }
 
-  // BELOW IS THE ORIGINAL CODE FOR GETTING JSON THRU HTTP
+  // Getting the JSON content by HTTP to simulate an async operation
   // =======================================================
 
-  // private URL = './demoData.json';
-  // constructor(private http: HttpClient) { }
+  private httpURL = 'assets/demoData.json';
 
-  // // get boards JSON object from URL
-  // getBoards(): Observable<Board[]> {
-  //   return this.http.get<Board[]>(this.URL).pipe(
-  //     catchError(this.handleError)
-  //   );
-  // }
+  constructor(
+    private http: HttpClient
+  ) { }
 
-  // // error handling for HTTP
-  // errorMessage: string;
-  // private handleError(err: HttpErrorResponse) {
-  //   let errorMessage = '';
-  //   if (err.error instanceof ErrorEvent) {
-  //     errorMessage = 'error: ${err.error.message}';
-  //   } else {
-  //     errorMessage = 'server return: ${err.status}, error: ${err.message}'
-  //   }
-  //   console.error(errorMessage);
-  //   return throwError(errorMessage);
-  // }
+  getBoardsHTTP(): Observable<Board[]> {
+    console.log("getBoardsHTTP");
+    return this.http.get<Board[]>(this.httpURL)
+      .pipe(
+        tap(data => console.log(JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  private handleError(err: any) {
+    let errorMessage: string;
+    if (err.error instanceof ErrorEvent) {
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
+    }
+    console.error(err);
+    return throwError(errorMessage);
+  }
 
 }

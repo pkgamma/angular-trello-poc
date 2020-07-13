@@ -1,5 +1,9 @@
 <poc-sidebar (boardSwitched)='onBoardSwitch()'>
 
+  <div *ngIf="testMessage$ | async as testMessage" style="font-size: 50px;">
+    {{ testMessage }}
+  </div>
+
   <!-- main board selection menu, shown when board ID is -1 (aka at menu) -->
   <div *ngIf="currentBoardId == -1" class="board-selection-container">
     <p style="font-size: 24px; margin-bottom: 32px;">Welcome! Please select a board.</p>
@@ -63,5 +67,5 @@
     </div>
     <div style="display: inline-block; min-width: 8px;"></div>
   </div>
-  
+
 </poc-sidebar>

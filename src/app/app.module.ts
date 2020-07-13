@@ -5,7 +5,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-//Angular Material Components
+// Angular Material Components
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -42,6 +42,14 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ListModifyComponent } from './popups/list-modify/list-modify.component';
 import { BoardModifyComponent } from './popups/board-modify/board-modify.component';
 import { ItemModifyComponent } from './popups/item-modify/item-modify.component';
+
+// NgRx Stuff
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { boardReducer } from './state/board.reducer';
+import { BoardEffects } from './state/board.effects';
 
 @NgModule({
   declarations: [
@@ -88,7 +96,14 @@ import { ItemModifyComponent } from './popups/item-modify/item-modify.component'
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    StoreModule.forRoot({ boards: boardReducer }),
+    StoreDevtoolsModule.instrument({ 
+      name: 'Angular Trello POC by Philip Kuo',
+      maxAge: 25, 
+      logOnly: environment.production 
+    }),
+    EffectsModule.forRoot([BoardEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

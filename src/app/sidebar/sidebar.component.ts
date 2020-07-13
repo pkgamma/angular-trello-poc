@@ -4,6 +4,12 @@ import { DataService } from '../shared/data.service';
 import { Board, List, Item } from '../shared/data';
 import { BoardModifyComponent } from '../popups/board-modify/board-modify.component';
 
+import { Store } from '@ngrx/store';
+import * as BoardActions from '../state/board.actions';
+import { Observable } from 'rxjs';
+import { State } from '../state/app.state';
+import { getTestMessage, getBoards } from '../state/board.reducer';
+
 @Component({
   selector: 'poc-sidebar',
   templateUrl: './sidebar.component.html',
@@ -13,24 +19,31 @@ export class SidebarComponent implements OnInit {
 
   @Output() boardSwitched: EventEmitter<number> = new EventEmitter<number>();
 
-  boards: Board[];
-  currentBoardId: number;
+  // boards: Board[];
 
-  newBoardName: string;
+  boards$: Observable<Board[]>;
 
   /**
    * Constructor for dependency injection
    * @param dataService for getting board data
    * @param dialog for edit/add function popups
    */
-  constructor(private dataService: DataService, public dialog: MatDialog) { }
+  constructor(
+    private store: Store<State>,
+    private dataService: DataService,
+    public dialog: MatDialog
+  ) { }
 
   /**
    * Called once to get initial board data (id will be -1 as set in app component)
    */
   ngOnInit() {
-    this.boards = this.dataService.getBoards();
-    this.currentBoardId = this.dataService.getCurrentBoardId();
+    // this.boards = this.dataService.getBoards();
+
+    this.store.dispatch(BoardActions.loadBoards());
+
+    this.boards$ = this.store.select(getBoards);
+
   }
 
   /**
@@ -39,7 +52,6 @@ export class SidebarComponent implements OnInit {
    */
   onBoardSelect(id: number) {
     this.dataService.setCurrentBoardId(id);
-    this.currentBoardId = this.dataService.getCurrentBoardId();
     this.boardSwitched.emit(id);
   }
 
@@ -48,14 +60,14 @@ export class SidebarComponent implements OnInit {
    * wait for work done in the dialog component, then perform necessary work
    */
   onAddBoard() {
-    const dialogRef = this.dialog.open(BoardModifyComponent, {
-      data: {currentBoard: {}, operationMode: "add"}
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result.title != "_cancel") {this.boards.unshift(result);}
-      console.log('The board dialog was closed');
-      console.log(result);
-    });
+    // const dialogRef = this.dialog.open(BoardModifyComponent, {
+    //   data: { currentBoard: {}, operationMode: "add" }
+    // });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result.title != "_cancel") { this.boards.unshift(result); }
+    //   console.log('The board dialog was closed');
+    //   console.log(result);
+    // });
   }
 
 }

@@ -7,6 +7,12 @@ import { BoardModifyComponent } from './popups/board-modify/board-modify.compone
 import { ListModifyComponent } from './popups/list-modify/list-modify.component'
 import { ItemModifyComponent } from './popups/item-modify/item-modify.component';
 
+import { Store } from '@ngrx/store';
+import * as BoardActions from './state/board.actions';
+import { Observable } from 'rxjs';
+import { State } from './state/app.state';
+import { getTestMessage } from './state/board.reducer';
+
 @Component({
   selector: 'poc-root',
   templateUrl: './app.component.html',
@@ -21,13 +27,15 @@ export class AppComponent implements OnInit {
   currentBoardTitle: string;
   currentBoardContent: List[];
   currentBoardListTitles: string[];
+  
+  testMessage$: Observable<string>;
 
   /**
    * Constructor for dependency injection
    * @param dataService for getting board data
    * @param dialog for edit/add function popups
    */
-  constructor(private dataService: DataService, public dialog: MatDialog) {
+  constructor(private store: Store<State>, private dataService: DataService, public dialog: MatDialog) {
   }
 
   /**
@@ -38,6 +46,9 @@ export class AppComponent implements OnInit {
     this.dataService.setCurrentBoardId(-1);
     this.boards = this.dataService.getBoards();
     this.currentBoardId = this.dataService.getCurrentBoardId();
+
+    this.store.dispatch(BoardActions.testMessage());
+    this.testMessage$ = this.store.select(getTestMessage);
   }
 
   /**
