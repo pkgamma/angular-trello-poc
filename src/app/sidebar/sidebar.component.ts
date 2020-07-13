@@ -39,11 +39,7 @@ export class SidebarComponent implements OnInit {
    */
   ngOnInit() {
     // this.boards = this.dataService.getBoards();
-
-    this.store.dispatch(BoardActions.loadBoards());
-
     this.boards$ = this.store.select(getBoards);
-
   }
 
   /**
@@ -51,7 +47,8 @@ export class SidebarComponent implements OnInit {
    * @param id board id
    */
   onBoardSelect(id: number) {
-    this.dataService.setCurrentBoardId(id);
+    // this.dataService.setCurrentBoardId(id);
+    this.store.dispatch(BoardActions.setCurrentBoardId({ id: id }));
     this.boardSwitched.emit(id);
   }
 
@@ -60,14 +57,16 @@ export class SidebarComponent implements OnInit {
    * wait for work done in the dialog component, then perform necessary work
    */
   onAddBoard() {
-    // const dialogRef = this.dialog.open(BoardModifyComponent, {
-    //   data: { currentBoard: {}, operationMode: "add" }
-    // });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result.title != "_cancel") { this.boards.unshift(result); }
-    //   console.log('The board dialog was closed');
-    //   console.log(result);
-    // });
+    const dialogRef = this.dialog.open(BoardModifyComponent, {
+      data: { currentBoard: {}, operationMode: "add" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.title != "_cancel") {
+        this.store.dispatch(BoardActions.addBoard({ title: result.title, id: result.id }));
+      }
+      console.log('The board dialog was closed');
+      console.log(result);
+    });
   }
 
 }

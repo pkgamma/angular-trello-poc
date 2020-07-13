@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import * as BoardActions from './state/board.actions';
 import { Observable } from 'rxjs';
 import { State } from './state/app.state';
-import { getTestMessage } from './state/board.reducer';
+import { getTestMessage, getBoards, getCurrentBoard, getCurrentBoardId } from './state/board.reducer';
 
 @Component({
   selector: 'poc-root',
@@ -29,19 +29,31 @@ export class AppComponent implements OnInit {
   currentBoardListTitles: string[];
   
   testMessage$: Observable<string>;
+  boards$: Observable<Board[]>;
+  currentBoard$: Observable<Board>;
+  currentBoardId$: Observable<number>;
 
   /**
    * Constructor for dependency injection
    * @param dataService for getting board data
    * @param dialog for edit/add function popups
    */
-  constructor(private store: Store<State>, private dataService: DataService, public dialog: MatDialog) {
-  }
+  constructor(
+    private store: Store<State>, 
+    private dataService: DataService, 
+    public dialog: MatDialog
+  ) { }
 
   /**
    * Called once to get initial board data and set current board to -1 to trigger showing menu
    */
   ngOnInit() {
+    this.store.dispatch(BoardActions.loadBoards());
+
+    this.boards$ = this.store.select(getBoards);
+    this.currentBoardId$ = this.store.select(getCurrentBoardId);
+    this.currentBoard$ = this.store.select(getCurrentBoard);
+
     this.dataService.onAppCompInit();
     this.dataService.setCurrentBoardId(-1);
     this.boards = this.dataService.getBoards();

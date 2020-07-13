@@ -1,14 +1,10 @@
 <poc-sidebar (boardSwitched)='onBoardSwitch()'>
 
-  <div *ngIf="testMessage$ | async as testMessage" style="font-size: 50px;">
-    {{ testMessage }}
-  </div>
-
   <!-- main board selection menu, shown when board ID is -1 (aka at menu) -->
-  <div *ngIf="currentBoardId == -1" class="board-selection-container">
+  <div *ngIf="(currentBoardId$ | async) == -1" class="board-selection-container">
     <p style="font-size: 24px; margin-bottom: 32px;">Welcome! Please select a board.</p>
     <div class="flex-break"></div>
-    <button mat-raised-button color="primary" class="board-selection-button" *ngFor="let board of boards"
+    <button mat-raised-button color="primary" class="board-selection-button" *ngFor="let board of (boards$ | async)"
       (click)="onBoardSelect(board.id)">{{board.title}}</button>
     <button mat-raised-button class="board-selection-button" (click)="onAddBoard()">
       <mat-icon>add</mat-icon>New Board
@@ -16,7 +12,7 @@
   </div>
 
   <!-- inner toolbar for board title and add board action -->
-  <mat-toolbar class="toolbar" color="accent" *ngIf="currentBoardId != -1">
+  <mat-toolbar class="toolbar" color="accent" *ngIf="(currentBoardId$ | async) != -1">
     <mat-toolbar-row>
       <span>{{this.currentBoardTitle}}</span>
       <div style="width: 10px"></div>
@@ -36,7 +32,7 @@
     <div style="display: inline-block; min-width: 8px;"></div>
 
     <!-- list cards (within a board) -->
-    <div class="list-card" *ngFor="let list of currentBoardContent" cdkDropList
+    <div class="list-card" *ngFor="let list of (currentBoard$ | async)?.content" cdkDropList
       (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.title}}"
       [cdkDropListConnectedTo]="this.currentBoardListTitles" cdkDrag cdkDragLockAxis="x">
       <mat-card-title class="title">{{ list.title }}</mat-card-title>

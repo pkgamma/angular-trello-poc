@@ -4,6 +4,12 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService } from '../../shared/data.service';
 import { Board, List, Item } from '../../shared/data';
 
+import { Store } from '@ngrx/store';
+import * as BoardActions from '../../state/board.actions';
+import { Observable } from 'rxjs';
+import { State } from '../../state/app.state';
+import { getTestMessage, getBoards } from '../../state/board.reducer';
+
 @Component({
   selector: 'poc-board-modify',
   templateUrl: './board-modify.component.html',
@@ -20,7 +26,8 @@ export class BoardModifyComponent implements OnInit {
    * @param data for Angular Material dialog
    * @param formBuilder for form input
    */
-  constructor(
+  constructor(    
+    private store: Store<State>,
     private dataService: DataService,
     public dialogRef: MatDialogRef<BoardModifyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { currentBoard: Board, operationMode: string },
@@ -51,6 +58,7 @@ export class BoardModifyComponent implements OnInit {
    */
   onSubmit() {
     let id = this.dataService.getNextUniqueId();
+    // this.store.dispatch(BoardActions.addBoard({ title: this.formGroup.value.title, id: this.dataService.getNextUniqueId() }));
     this.dialogRef.close({ "title": this.formGroup.value.title, "id": id, "content": this.data.currentBoard.content ? this.data.currentBoard.content : [] });
   }
 

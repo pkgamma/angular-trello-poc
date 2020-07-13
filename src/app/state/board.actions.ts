@@ -5,9 +5,10 @@ export const testMessage = createAction(
     '[Test] Philips Test!'
 )
 
-export const setCurrentBoardToMenu = createAction(
-    '[Board] Set ID to -1 (Menu)'
-);
+export const setCurrentBoardId = createAction(
+    '[Board] Set ID',
+    props<{ id: number }>()
+)
 
 // load boards
 
@@ -29,46 +30,48 @@ export const loadBoardsFailure = createAction(
 
 export const addBoard = createAction(
     '[Board] Add',
-    props<{ board: Board }>()
+    props<{ title: string, id: number }>()
 )
 
 export const editBoard = createAction(
     '[Board] Edit',
-    props<{ board: Board }>()
+    props<{ title: string }>()
 )
 
 export const deleteBoard = createAction(
     '[Board] Delete'
 )
 
-// list
+// list actions
 
 export const addList = createAction(
     '[List] Add',
-    props<{ list: List }>()
+    props<{ title: string }>()
 )
 
 export const editList = createAction(
     '[List] Edit',
-    props<{ list: List }>()
+    props<{ list: List, newTitle: string }>()
 )
 
 export const deleteList = createAction(
-    '[List] Delete'
+    '[List] Delete',
+    props<{ list: List }>()
 )
 
-// item
+// item actions
 
 export const addItem = createAction(
     '[Item] Add',
-    props<{ item: Item }>()
+    props<{ list: List, title: string }>()
 )
 
 export const editItem = createAction(
     '[Item] Edit',
-    props<{ item: Item }>()
+    props<{ list: List, item: Item, title: string }>()
 )
 
 export const deleteItem = createAction(
-    '[Item] Delete'
+    '[Item] Delete',
+    props<{ list: List, item: Item }>()
 )
