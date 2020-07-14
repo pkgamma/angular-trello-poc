@@ -69,14 +69,6 @@ export class AppComponent implements OnInit {
    */
   onItemDrop(event: CdkDragDrop<Item[]>) {
     this.store.dispatch(BoardActions.swapItems({ list2Content: event.container.data, list1Content: event.previousContainer.data, currentIndex: event.currentIndex, previousIndex: event.previousIndex }));
-    // if (event.previousContainer === event.container) {
-    //   moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    // } else {
-    //   transferArrayItem(event.previousContainer.data,
-    //     event.container.data,
-    //     event.previousIndex,
-    //     event.currentIndex);
-    // }
   }
 
   /**
@@ -135,7 +127,10 @@ export class AppComponent implements OnInit {
       data: { currentTitle: currentList.title, operationMode: "edit" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.title == "_delete") { this.store.dispatch(BoardActions.deleteList({ list: currentList })); }
+      if (result.title == "_delete") {
+        this.store.dispatch(BoardActions.deleteList({ list: currentList }));
+        this.store.dispatch(BoardActions.buildListTitlesArray());
+      }
       else if (result.title == "_cancel") { }
       else {
         this.store.dispatch(BoardActions.editList({ list: currentList, newTitle: result.title }));

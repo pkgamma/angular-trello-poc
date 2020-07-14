@@ -195,8 +195,9 @@ export const boardReducer = createReducer<BoardState>(
 
     on(BoardActions.swapItems, (state, action) => {
         const currentBoard = state.boards.find(b => b.id === state.currentBoardId);
-        let list2Order = 0;
-        let list1Order = 0;
+        const updatedBoardContent = currentBoard.content.slice();
+        let list2Order = 0; // list that item got dropped in
+        let list1Order = 0; // list that item was picked up from
         currentBoard.content.forEach(function (arrayItem) {
             if (arrayItem.content == action.list2Content) {
                 list2Order = currentBoard.content.indexOf(arrayItem);
@@ -207,16 +208,17 @@ export const boardReducer = createReducer<BoardState>(
         });
         const list2Content = currentBoard.content[list2Order].content.slice();
         const list1Content = currentBoard.content[list1Order].content.slice();
-        if (list1Content == list2Content) {
+        if (list1Order == list2Order) { // dragged and dropped in same list
             moveItemInArray(list2Content, action.previousIndex, action.currentIndex);
-        } else {
+            const updatedList2 = {...currentBoard.content[list2Order], content: list2Content}
+            updatedBoardContent[list2Order] = updatedList2;
+        } else { // dragged and dropped in different list
             transferArrayItem(list1Content, list2Content, action.previousIndex, action.currentIndex);
+            const updatedList2 = {...currentBoard.content[list2Order], content: list2Content}
+            const updatedList1 = {...currentBoard.content[list1Order], content: list1Content}
+            updatedBoardContent[list2Order] = updatedList2;
+            updatedBoardContent[list1Order] = updatedList1;
         }
-        const updatedList2 = {...currentBoard.content[list2Order], content: list2Content}
-        const updatedList1 = {...currentBoard.content[list1Order], content: list1Content}
-        const updatedBoardContent = currentBoard.content.slice();
-        updatedBoardContent[list2Order] = updatedList2;
-        updatedBoardContent[list1Order] = updatedList1;
         const updatedBoards = state.boards.map(b => state.currentBoardId === b.id ? { ...b, content: updatedBoardContent } : b);
         return {
             ...state,
