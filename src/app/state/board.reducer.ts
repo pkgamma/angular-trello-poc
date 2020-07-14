@@ -1,7 +1,8 @@
 import { createReducer, createFeatureSelector, createSelector, on } from '@ngrx/store';
+import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+
 import { Board, List, Item } from '../shared/data'
 import * as BoardActions from './board.actions';
-import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 export interface BoardState {
     currentBoardId: number | null;

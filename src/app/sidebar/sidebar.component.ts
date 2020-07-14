@@ -1,14 +1,13 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DataService } from '../shared/data.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
 import { Board, List, Item } from '../shared/data';
 import { BoardModifyComponent } from '../popups/board-modify/board-modify.component';
-
-import { Store } from '@ngrx/store';
-import * as BoardActions from '../state/board.actions';
-import { Observable } from 'rxjs';
 import { State } from '../state/app.state';
 import { getBoards } from '../state/board.reducer';
+import * as BoardActions from '../state/board.actions';
 
 @Component({
   selector: 'poc-sidebar',

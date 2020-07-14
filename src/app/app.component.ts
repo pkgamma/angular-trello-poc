@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
-import { DataService } from './shared/data.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
 import { Board, List, Item } from './shared/data';
 import { BoardModifyComponent } from './popups/board-modify/board-modify.component';
 import { ListModifyComponent } from './popups/list-modify/list-modify.component'
 import { ItemModifyComponent } from './popups/item-modify/item-modify.component';
-
-import { Store } from '@ngrx/store';
-import * as BoardActions from './state/board.actions';
-import { Observable } from 'rxjs';
 import { State } from './state/app.state';
 import { getBoards, getCurrentBoard, getCurrentBoardId, getCurrentBoardListTitles } from './state/board.reducer';
+import * as BoardActions from './state/board.actions';
 
 @Component({
   selector: 'poc-root',

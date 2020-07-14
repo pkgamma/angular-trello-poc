@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+
 import { Board, List, Item } from '../shared/data'
 
 export const setCurrentBoardId = createAction(

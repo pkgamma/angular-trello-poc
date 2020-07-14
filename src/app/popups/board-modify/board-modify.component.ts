@@ -1,13 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DataService } from '../../shared/data.service';
-import { Board, List, Item } from '../../shared/data';
-
-import { Store } from '@ngrx/store';
-import * as BoardActions from '../../state/board.actions';
-import { Observable } from 'rxjs';
-import { State } from '../../state/app.state';
 
 @Component({
   selector: 'poc-board-modify',
@@ -20,14 +13,11 @@ export class BoardModifyComponent implements OnInit {
 
   /**
    * Constructor for dependency injection
-   * @param dataService for getting next unique ID when creating new board
    * @param dialogRef for Angular Material dialog
    * @param data for Angular Material dialog
    * @param formBuilder for form input
    */
   constructor(    
-    private store: Store<State>,
-    private dataService: DataService,
     public dialogRef: MatDialogRef<BoardModifyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { currentTitle: string, operationMode: string },
     public formBuilder: FormBuilder
@@ -56,7 +46,7 @@ export class BoardModifyComponent implements OnInit {
    * passes back with new UID and current content unchanged
    */
   onSubmit() {
-    this.dialogRef.close({ "title": this.formGroup.value.title, "id": this.dataService.getNextUniqueId()});
+    this.dialogRef.close({ "title": this.formGroup.value.title, "id": Math.floor((Math.random() * 9000) + 1000)});
   }
 
   /**

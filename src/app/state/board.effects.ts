@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Action } from '@ngrx/store';
-import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
-import { mergeMap, map, catchError, concatMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { mergeMap, map, catchError } from 'rxjs/operators';
 
 import * as BoardActions from './board.actions';
 import { DataService } from '../shared/data.service';
