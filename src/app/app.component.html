@@ -37,8 +37,7 @@
       <!-- list cards (within a board) -->
       <div class="list-card" *ngFor="let list of currentBoard.content" cdkDropList
         (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.title}}"
-        cdkDrag cdkDragLockAxis="x">
-        <!-- add to above for cross list drag & drop [cdkDropListConnectedTo]="this.currentBoardListTitles" -->
+        [cdkDropListConnectedTo]="(currentBoardListTitles$ | async)" cdkDrag cdkDragLockAxis="x">
         <mat-card-title class="title">{{ list.title }}</mat-card-title>
         <mat-icon class="edit-button" (click)="onEditList(list)">edit</mat-icon>
         <mat-icon class="darg-handle" cdkDragHandle>open_with</mat-icon>

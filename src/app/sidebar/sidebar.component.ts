@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import * as BoardActions from '../state/board.actions';
 import { Observable } from 'rxjs';
 import { State } from '../state/app.state';
-import { getTestMessage, getBoards } from '../state/board.reducer';
+import { getBoards } from '../state/board.reducer';
 
 @Component({
   selector: 'poc-sidebar',

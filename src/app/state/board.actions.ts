@@ -1,10 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Board, List, Item } from '../shared/data'
 
-export const testMessage = createAction(
-    '[Test] Philips Test!'
-)
-
 export const setCurrentBoardId = createAction(
     '[Board] Set ID',
     props<{ id: number }>()
@@ -59,13 +55,13 @@ export const deleteList = createAction(
     props<{ list: List }>()
 )
 
-// export const buildListTitlesArray = createAction(
-//     '[List] Build List Titles Array'
-// )
+export const buildListTitlesArray = createAction(
+    '[List] Build List Titles Array'
+)
 
 export const swapLists = createAction(
     '[List] Swap',
-    props<{ list1: List, list2: List }>()
+    props<{ currentIndex: number, previousIndex: number }>()
 )
 
 // item actions
@@ -87,5 +83,5 @@ export const deleteItem = createAction(
 
 export const swapItems = createAction(
     '[Item] Swap',
-    props<{ item1: Item, item2: Item }>()
+    props<{ list2Content: Item[], list1Content: Item[], currentIndex: number, previousIndex: number }>()
 )

@@ -1,19 +1,20 @@
 import { createReducer, createFeatureSelector, createSelector, on } from '@ngrx/store';
 import { Board, List, Item } from '../shared/data'
 import * as BoardActions from './board.actions';
+import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 export interface BoardState {
     currentBoardId: number | null;
+    currentBoardListTitles: string[];
     boards: Board[];
     error: string;
-    testMessage: string;
 }
 
 const initialState: BoardState = {
     currentBoardId: -1,
+    currentBoardListTitles: [],
     boards: [],
-    error: '',
-    testMessage: 'from board reducer interface'
+    error: ''
 }
 
 // ===============================================
@@ -33,14 +34,10 @@ export const getCurrentBoard = createSelector(
     }
 )
 
-// export const getCurrentBoardContent = createSelector(
-//     getBoardFeatureState,
-//     getCurrentBoardId,
-//     (state, currentBoardId) => {
-//         const currentBoard = currentBoardId ? state.boards.find(b => b.id === currentBoardId) : null;
-//         return currentBoard.content;
-//     }
-// )
+export const getCurrentBoardListTitles = createSelector(
+    getBoardFeatureState,
+    state => state.currentBoardListTitles
+)
 
 export const getBoards = createSelector(
     getBoardFeatureState,
@@ -52,22 +49,10 @@ export const getError = createSelector(
     state => state.error
 )
 
-export const getTestMessage = createSelector(
-    getBoardFeatureState,
-    state => state.testMessage
-)
-
 // ===============================================
 
 export const boardReducer = createReducer<BoardState>(
     initialState,
-
-    on(BoardActions.testMessage, (state): BoardState => {
-        return {
-            ...state,
-            testMessage: 'CALLIN FROM BOARD REDUCER'
-        }
-    }),
 
     on(BoardActions.setCurrentBoardId, (state, action): BoardState => {
         return {
@@ -153,6 +138,26 @@ export const boardReducer = createReducer<BoardState>(
         };
     }),
 
+    on(BoardActions.buildListTitlesArray, (state) => {
+        const currentBoard = state.boards.find(b => b.id === state.currentBoardId);
+        const updatedBoardListTitles = currentBoard.content.map(l => "" + l.title);
+        return {
+            ...state,
+            currentBoardListTitles: updatedBoardListTitles
+        }
+    }),
+
+    on(BoardActions.swapLists, (state, action) => {
+        const currentBoard = state.boards.find(b => b.id === state.currentBoardId);
+        const updatedBoardContent = currentBoard.content.slice();
+        moveItemInArray(updatedBoardContent, action.previousIndex, action.currentIndex);
+        const updatedBoards = state.boards.map(b => state.currentBoardId === b.id ? { ...b, content: updatedBoardContent } : b);
+        return {
+            ...state,
+            boards: updatedBoards
+        }
+    }),
+
     // item actions
 
     on(BoardActions.addItem, (state, action): BoardState => {
@@ -186,6 +191,37 @@ export const boardReducer = createReducer<BoardState>(
             ...state,
             boards: updatedBoards
         };
+    }),
+
+    on(BoardActions.swapItems, (state, action) => {
+        const currentBoard = state.boards.find(b => b.id === state.currentBoardId);
+        let list2Order = 0;
+        let list1Order = 0;
+        currentBoard.content.forEach(function (arrayItem) {
+            if (arrayItem.content == action.list2Content) {
+                list2Order = currentBoard.content.indexOf(arrayItem);
+            }
+            if (arrayItem.content == action.list1Content) {
+                list1Order = currentBoard.content.indexOf(arrayItem);
+            }
+        });
+        const list2Content = currentBoard.content[list2Order].content.slice();
+        const list1Content = currentBoard.content[list1Order].content.slice();
+        if (list1Content == list2Content) {
+            moveItemInArray(list2Content, action.previousIndex, action.currentIndex);
+        } else {
+            transferArrayItem(list1Content, list2Content, action.previousIndex, action.currentIndex);
+        }
+        const updatedList2 = {...currentBoard.content[list2Order], content: list2Content}
+        const updatedList1 = {...currentBoard.content[list1Order], content: list1Content}
+        const updatedBoardContent = currentBoard.content.slice();
+        updatedBoardContent[list2Order] = updatedList2;
+        updatedBoardContent[list1Order] = updatedList1;
+        const updatedBoards = state.boards.map(b => state.currentBoardId === b.id ? { ...b, content: updatedBoardContent } : b);
+        return {
+            ...state,
+            boards: updatedBoards
+        }
     }),
 
 );

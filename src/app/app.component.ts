@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import * as BoardActions from './state/board.actions';
 import { Observable } from 'rxjs';
 import { State } from './state/app.state';
-import { getTestMessage, getBoards, getCurrentBoard, getCurrentBoardId } from './state/board.reducer';
+import { getBoards, getCurrentBoard, getCurrentBoardId, getCurrentBoardListTitles } from './state/board.reducer';
 
 @Component({
   selector: 'poc-root',
@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   boards$: Observable<Board[]>;
   currentBoardId$: Observable<number>;
   currentBoard$: Observable<Board>;
+  currentBoardListTitles$: Observable<string[]>;
 
   /**
    * Constructor for dependency injection
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit {
     this.boards$ = this.store.select(getBoards);
     this.currentBoardId$ = this.store.select(getCurrentBoardId);
     this.currentBoard$ = this.store.select(getCurrentBoard);
+    this.currentBoardListTitles$ = this.store.select(getCurrentBoardListTitles);
   }
 
   /**
@@ -50,23 +52,23 @@ export class AppComponent implements OnInit {
    */
   onBoardSelect(id: number) {
     this.store.dispatch(BoardActions.setCurrentBoardId({ id: id }));
+    this.store.dispatch(BoardActions.buildListTitlesArray());
   }
 
   /**
    * For dragging, dropping, and reordering lists
    * @param event 
    */
-  // TODO
   onListDrop(event: CdkDragDrop<List[]>) {
-    // moveItemInArray(this.currentBoardContent, event.previousIndex, event.currentIndex);
+    this.store.dispatch(BoardActions.swapLists({ currentIndex: event.currentIndex, previousIndex: event.previousIndex }));
   }
 
   /**
    * For dragging, dropping, and reordering items within or across lists
    * @param event 
    */
-  // TODO
-  onItemDrop(event: CdkDragDrop<string[]>) {
+  onItemDrop(event: CdkDragDrop<Item[]>) {
+    this.store.dispatch(BoardActions.swapItems({ list2Content: event.container.data, list1Content: event.previousContainer.data, currentIndex: event.currentIndex, previousIndex: event.previousIndex }));
     // if (event.previousContainer === event.container) {
     //   moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     // } else {
@@ -115,8 +117,10 @@ export class AppComponent implements OnInit {
       data: { currentTitle: "", operationMode: "add" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.title != "_cancel") { this.store.dispatch(BoardActions.addList({ title: result.title })); };
-      // TODO: add to drag and drop list
+      if (result.title != "_cancel") {
+        this.store.dispatch(BoardActions.addList({ title: result.title }));
+        this.store.dispatch(BoardActions.buildListTitlesArray());
+      };
     });
   }
 
@@ -133,8 +137,10 @@ export class AppComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result.title == "_delete") { this.store.dispatch(BoardActions.deleteList({ list: currentList })); }
       else if (result.title == "_cancel") { }
-      else { this.store.dispatch(BoardActions.editList({ list: currentList, newTitle: result.title })); };
-      // TODO: add to drag and drop list
+      else {
+        this.store.dispatch(BoardActions.editList({ list: currentList, newTitle: result.title }));
+        this.store.dispatch(BoardActions.buildListTitlesArray());
+      };
     });
   }
 
