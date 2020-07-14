@@ -59,19 +59,33 @@ export const deleteList = createAction(
     props<{ list: List }>()
 )
 
+// export const buildListTitlesArray = createAction(
+//     '[List] Build List Titles Array'
+// )
+
+export const swapLists = createAction(
+    '[List] Swap',
+    props<{ list1: List, list2: List }>()
+)
+
 // item actions
 
 export const addItem = createAction(
     '[Item] Add',
-    props<{ list: List, title: string }>()
+    props<{ list: List, title: string, content: string }>()
 )
 
 export const editItem = createAction(
     '[Item] Edit',
-    props<{ list: List, item: Item, title: string }>()
+    props<{ list: List, item: Item, title: string, content: string }>()
 )
 
 export const deleteItem = createAction(
     '[Item] Delete',
     props<{ list: List, item: Item }>()
+)
+
+export const swapItems = createAction(
+    '[Item] Swap',
+    props<{ item1: Item, item2: Item }>()
 )

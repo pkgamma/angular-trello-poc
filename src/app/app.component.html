@@ -1,4 +1,5 @@
-<poc-sidebar (boardSwitched)='onBoardSwitch()'>
+<!-- <poc-sidebar (boardSwitched)='onBoardSwitch()'> -->
+<poc-sidebar>
 
   <!-- main board selection menu, shown when board ID is -1 (aka at menu) -->
   <div *ngIf="(currentBoardId$ | async) == -1" class="board-selection-container">
@@ -11,57 +12,62 @@
     </button>
   </div>
 
-  <!-- inner toolbar for board title and add board action -->
-  <mat-toolbar class="toolbar" color="accent" *ngIf="(currentBoardId$ | async) != -1">
-    <mat-toolbar-row>
-      <span>{{this.currentBoardTitle}}</span>
-      <div style="width: 10px"></div>
-      <button mat-raised-button (click)="onEditBoard()">
-        <mat-icon>edit</mat-icon>Edit / Delete
-      </button>
-      <span class="spacer"></span>
-      <button mat-raised-button (click)="onAddList()">
-        <mat-icon>add</mat-icon>New List
-      </button>
-    </mat-toolbar-row>
-  </mat-toolbar>
+  <ng-container *ngIf="currentBoard$ | async as currentBoard">
 
-  <!-- main screen where lists within a board are displayed -->
-  <div class="board-container" cdkDropList cdkDropListOrientation="horizontal"
-    (cdkDropListDropped)="onListDrop($event)">
-    <div style="display: inline-block; min-width: 8px;"></div>
+    <!-- inner toolbar for board title and add board action -->
+    <mat-toolbar class="toolbar" color="accent" *ngIf="currentBoard.id != -1">
+      <mat-toolbar-row>
+        <span>{{this.currentBoard.title}}</span>
+        <div style="width: 10px"></div>
+        <button mat-raised-button (click)="onEditBoard(this.currentBoard.title)">
+          <mat-icon>edit</mat-icon>Edit / Delete
+        </button>
+        <span class="spacer"></span>
+        <button mat-raised-button (click)="onAddList()">
+          <mat-icon>add</mat-icon>New List
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
 
-    <!-- list cards (within a board) -->
-    <div class="list-card" *ngFor="let list of (currentBoard$ | async)?.content" cdkDropList
-      (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.title}}"
-      [cdkDropListConnectedTo]="this.currentBoardListTitles" cdkDrag cdkDragLockAxis="x">
-      <mat-card-title class="title">{{ list.title }}</mat-card-title>
-      <mat-icon class="edit-button" (click)="onEditList(list)">edit</mat-icon>
-      <mat-icon class="darg-handle" cdkDragHandle>open_with</mat-icon>
-      <div style="height: 8px;"></div>
+    <!-- main screen where lists within a board are displayed -->
+    <div class="board-container" cdkDropList cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="onListDrop($event)">
+      <div style="display: inline-block; min-width: 8px;"></div>
 
-      <!-- item boxes (within a list) -->
-      <div cdkDrag class="item-card" *ngFor="let item of list.content">
-        <mat-card-content>
-          <b>{{ item.title }}</b>
-          <br>
-          {{ item.content }}
-          <br>
-          <!-- <button mat-stroked-button (click)="onEditItem(list, item)">
+      <!-- list cards (within a board) -->
+      <div class="list-card" *ngFor="let list of currentBoard.content" cdkDropList
+        (cdkDropListDropped)="onItemDrop($event)" [cdkDropListData]="list.content" id="{{list.title}}"
+        cdkDrag cdkDragLockAxis="x">
+        <!-- add to above for cross list drag & drop [cdkDropListConnectedTo]="this.currentBoardListTitles" -->
+        <mat-card-title class="title">{{ list.title }}</mat-card-title>
+        <mat-icon class="edit-button" (click)="onEditList(list)">edit</mat-icon>
+        <mat-icon class="darg-handle" cdkDragHandle>open_with</mat-icon>
+        <div style="height: 8px;"></div>
+
+        <!-- item boxes (within a list) -->
+        <div cdkDrag class="item-card" *ngFor="let item of list.content">
+          <mat-card-content>
+            <b>{{ item.title }}</b>
+            <br>
+            {{ item.content }}
+            <br>
+            <!-- <button mat-stroked-button (click)="onEditItem(list, item)">
             Edit Item
           </button> -->
-        </mat-card-content>
-        <mat-icon class="edit-button" (click)="onEditItem(list, item)">edit</mat-icon>
-      </div>
+          </mat-card-content>
+          <mat-icon class="edit-button" (click)="onEditItem(list, item)">edit</mat-icon>
+        </div>
 
-      <div style="height: 4px;"></div>
-      <mat-card-actions>
-        <button mat-flat-button (click)="onAddItem(list)" color="accent">
-          <mat-icon>add</mat-icon>New Item
-        </button>
-      </mat-card-actions>
+        <div style="height: 4px;"></div>
+        <mat-card-actions>
+          <button mat-flat-button (click)="onAddItem(list)" color="accent">
+            <mat-icon>add</mat-icon>New Item
+          </button>
+        </mat-card-actions>
+      </div>
+      <div style="display: inline-block; min-width: 8px;"></div>
     </div>
-    <div style="display: inline-block; min-width: 8px;"></div>
-  </div>
+
+  </ng-container>
 
 </poc-sidebar>

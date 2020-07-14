@@ -30,7 +30,7 @@ export class BoardModifyComponent implements OnInit {
     private store: Store<State>,
     private dataService: DataService,
     public dialogRef: MatDialogRef<BoardModifyComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { currentBoard: Board, operationMode: string },
+    @Inject(MAT_DIALOG_DATA) public data: { currentTitle: string, operationMode: string },
     public formBuilder: FormBuilder
   ) { }
 
@@ -45,7 +45,7 @@ export class BoardModifyComponent implements OnInit {
     }
     if (this.data.operationMode == "edit") {
       this.formGroup = this.formBuilder.group({
-        title: [this.data.currentBoard.title, Validators.required]
+        title: [this.data.currentTitle, Validators.required]
       });
     }
 
@@ -57,9 +57,7 @@ export class BoardModifyComponent implements OnInit {
    * passes back with new UID and current content unchanged
    */
   onSubmit() {
-    let id = this.dataService.getNextUniqueId();
-    // this.store.dispatch(BoardActions.addBoard({ title: this.formGroup.value.title, id: this.dataService.getNextUniqueId() }));
-    this.dialogRef.close({ "title": this.formGroup.value.title, "id": id, "content": this.data.currentBoard.content ? this.data.currentBoard.content : [] });
+    this.dialogRef.close({ "title": this.formGroup.value.title, "id": this.dataService.getNextUniqueId()});
   }
 
   /**
@@ -67,10 +65,7 @@ export class BoardModifyComponent implements OnInit {
    * parent component to not perform any action
    */
   onNoClick() {
-    this.formGroup.patchValue({
-      title: "_cancel",
-    });
-    this.dialogRef.close(this.formGroup.value);
+    this.dialogRef.close({"title": "_cancel"});
   }
 
   /**
@@ -79,10 +74,7 @@ export class BoardModifyComponent implements OnInit {
    */
   onDeleteClick() {
     if (confirm('Are you sure you want to delete this?')) {
-      this.formGroup.patchValue({
-        title: "_delete",
-      });
-      this.dialogRef.close(this.formGroup.value);
+      this.dialogRef.close({"title": "_delete"});
     }
   }
 

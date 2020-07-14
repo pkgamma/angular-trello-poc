@@ -17,8 +17,8 @@
     <mat-dialog-actions align="end">
         <button *ngIf="this.data.operationMode == 'edit'" mat-button color="warn" (mousedown)="onDeleteClick()">Delete Item</button>
         <button mat-button (mousedown)="onNoClick()">Cancel</button>
-        <button *ngIf="this.data.operationMode == 'add'" mat-button color="primary" [disabled]="formGroup.invalid">Add Item</button>
-        <button *ngIf="this.data.operationMode == 'edit'" mat-button color="primary" [disabled]="formGroup.invalid">Save</button>
+        <button *ngIf="this.data.operationMode == 'add'" mat-button color="primary" [disabled]="formGroup.invalid" (submit)="onSubmit()">Add Item</button>
+        <button *ngIf="this.data.operationMode == 'edit'" mat-button color="primary" [disabled]="formGroup.invalid" (submit)="onSubmit()">Save</button>
     </mat-dialog-actions>
 
 </form>

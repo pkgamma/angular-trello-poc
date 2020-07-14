@@ -33,6 +33,15 @@ export const getCurrentBoard = createSelector(
     }
 )
 
+// export const getCurrentBoardContent = createSelector(
+//     getBoardFeatureState,
+//     getCurrentBoardId,
+//     (state, currentBoardId) => {
+//         const currentBoard = currentBoardId ? state.boards.find(b => b.id === currentBoardId) : null;
+//         return currentBoard.content;
+//     }
+// )
+
 export const getBoards = createSelector(
     getBoardFeatureState,
     state => state.boards
@@ -107,6 +116,7 @@ export const boardReducer = createReducer<BoardState>(
         const updatedBoards = state.boards.filter(b => state.currentBoardId !== b.id);
         return {
             ...state,
+            currentBoardId: -1,
             boards: updatedBoards
         };
     }),
@@ -147,7 +157,7 @@ export const boardReducer = createReducer<BoardState>(
 
     on(BoardActions.addItem, (state, action): BoardState => {
         const currentBoard = state.boards.find(b => b.id === state.currentBoardId);
-        const updatedListContent = action.list.content.concat({ title: action.title, content: "" });
+        const updatedListContent = action.list.content.concat({ title: action.title, content: action.content });
         const updatedBoardContent = currentBoard.content.map(l => action.list === l ? { ...action.list, content: updatedListContent } : l);
         const updatedBoards = state.boards.map(b => state.currentBoardId === b.id ? { ...b, content: updatedBoardContent } : b);
         return {
@@ -158,7 +168,7 @@ export const boardReducer = createReducer<BoardState>(
 
     on(BoardActions.editItem, (state, action): BoardState => {
         const currentBoard = state.boards.find(b => b.id === state.currentBoardId);
-        const updatedListContent = action.list.content.map(i => action.item === i ? { ...action.item, title: action.title } : i);
+        const updatedListContent = action.list.content.map(i => action.item === i ? { ...action.item, title: action.title, content: action.content } : i);
         const updatedBoardContent = currentBoard.content.map(l => action.list === l ? { ...action.list, content: updatedListContent } : l);
         const updatedBoards = state.boards.map(b => state.currentBoardId === b.id ? { ...b, content: updatedBoardContent } : b);
         return {

@@ -39,13 +39,14 @@ export class DataService {
    * Generator for new board's ID, guaranteed to be unique
    */
   getNextUniqueId(): number {
-    let id = 0;
-    for (let board of this.boards) {
-      if (board.id > id) {
-        id = board.id;
-      }
-    }
-    return id + 1;
+    // let id = 0;
+    // for (let board of this.boards) {
+    //   if (board.id > id) {
+    //     id = board.id;
+    //   }
+    // }
+    // return id + 1;
+    return Math.floor((Math.random() * 3000) + 999);
   }
 
   /**
@@ -108,7 +109,7 @@ export class DataService {
         this.setCurrentBoardTitle(board.title);
       }
     }
-    console.log(this.currentBoardContent);
+    // console.log(this.currentBoardContent);
   }
 
   // Getting the JSON content by HTTP to simulate an async operation
@@ -124,7 +125,7 @@ export class DataService {
     console.log("getBoardsHTTP");
     return this.http.get<Board[]>(this.httpURL)
       .pipe(
-        tap(data => console.log(JSON.stringify(data))),
+        // tap(data => console.log(JSON.stringify(data))),
         catchError(this.handleError)
       );
   }

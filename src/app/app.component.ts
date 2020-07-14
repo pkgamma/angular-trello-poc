@@ -21,26 +21,16 @@ import { getTestMessage, getBoards, getCurrentBoard, getCurrentBoardId } from '.
 export class AppComponent implements OnInit {
 
   title: string = "Trello POC";
-
-  boards: Board[];
-  currentBoardId: number;
-  currentBoardTitle: string;
-  currentBoardContent: List[];
-  currentBoardListTitles: string[];
-  
-  testMessage$: Observable<string>;
   boards$: Observable<Board[]>;
-  currentBoard$: Observable<Board>;
   currentBoardId$: Observable<number>;
+  currentBoard$: Observable<Board>;
 
   /**
    * Constructor for dependency injection
-   * @param dataService for getting board data
    * @param dialog for edit/add function popups
    */
   constructor(
-    private store: Store<State>, 
-    private dataService: DataService, 
+    private store: Store<State>,
     public dialog: MatDialog
   ) { }
 
@@ -49,18 +39,9 @@ export class AppComponent implements OnInit {
    */
   ngOnInit() {
     this.store.dispatch(BoardActions.loadBoards());
-
     this.boards$ = this.store.select(getBoards);
     this.currentBoardId$ = this.store.select(getCurrentBoardId);
     this.currentBoard$ = this.store.select(getCurrentBoard);
-
-    this.dataService.onAppCompInit();
-    this.dataService.setCurrentBoardId(-1);
-    this.boards = this.dataService.getBoards();
-    this.currentBoardId = this.dataService.getCurrentBoardId();
-
-    this.store.dispatch(BoardActions.testMessage());
-    this.testMessage$ = this.store.select(getTestMessage);
   }
 
   /**
@@ -68,43 +49,32 @@ export class AppComponent implements OnInit {
    * @param id board id
    */
   onBoardSelect(id: number) {
-    this.dataService.setCurrentBoardId(id);
-    this.onBoardSwitch();
-  }
-
-  /**
-   * Called when board switches either by this or the sidebar component, update all local copy of data
-   */
-  onBoardSwitch() {
-    this.currentBoardId = this.dataService.getCurrentBoardId();
-    this.currentBoardTitle = this.dataService.getCurrentBoardTitle();
-    this.currentBoardContent = this.dataService.getCurrentBoardContent();
-    if (this.currentBoardContent) {
-      this.currentBoardListTitles = this.currentBoardContent.map(list => "" + list.title);
-    }
+    this.store.dispatch(BoardActions.setCurrentBoardId({ id: id }));
   }
 
   /**
    * For dragging, dropping, and reordering lists
    * @param event 
    */
+  // TODO
   onListDrop(event: CdkDragDrop<List[]>) {
-    moveItemInArray(this.currentBoardContent, event.previousIndex, event.currentIndex);
+    // moveItemInArray(this.currentBoardContent, event.previousIndex, event.currentIndex);
   }
 
   /**
    * For dragging, dropping, and reordering items within or across lists
    * @param event 
    */
+  // TODO
   onItemDrop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-    }
+    // if (event.previousContainer === event.container) {
+    //   moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    // } else {
+    //   transferArrayItem(event.previousContainer.data,
+    //     event.container.data,
+    //     event.previousIndex,
+    //     event.currentIndex);
+    // }
   }
 
   /**
@@ -113,12 +83,10 @@ export class AppComponent implements OnInit {
    */
   onAddBoard() {
     const dialogRef = this.dialog.open(BoardModifyComponent, {
-      data: { currentBoard: {}, operationMode: "add" }
+      data: { currentTitle: "", operationMode: "add" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.title != "_cancel") { this.boards.unshift(result); }
-      console.log('The board dialog was closed');
-      console.log(result);
+      if (result.title != "_cancel") { this.store.dispatch(BoardActions.addBoard({ title: result.title, id: result.id })); };
     });
   }
 
@@ -127,23 +95,14 @@ export class AppComponent implements OnInit {
    * it opens up dialog, pass in data, wait for work done in the dialog component, 
    * then perform necessary work depending on user action in dialog component
    */
-  onEditBoard() {
-    let currentBoard = this.dataService.getCurrentBoard();
+  onEditBoard(title: string) {
     const dialogRef = this.dialog.open(BoardModifyComponent, {
-      data: { currentBoard: currentBoard, operationMode: "edit" }
+      data: { currentTitle: title, operationMode: "edit" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.title == "_delete") {
-        this.boards.splice(this.boards.indexOf(currentBoard), 1);
-        this.onBoardSelect(-1);
-      } else if (result.title == "_cancel") {
-      } else {
-        Object.assign(currentBoard, result);
-        this.currentBoardTitle = result.title;
-      };
-
-      console.log('The board dialog was closed');
-      console.log(result);
+      if (result.title == "_delete") { this.store.dispatch(BoardActions.deleteBoard()); }
+      else if (result.title == "_cancel") { }
+      else { this.store.dispatch(BoardActions.editBoard({ title: result.title })); };
     });
   }
 
@@ -153,13 +112,11 @@ export class AppComponent implements OnInit {
    */
   onAddList() {
     const dialogRef = this.dialog.open(ListModifyComponent, {
-      data: { currentTitle: "", currentContent: [], operationMode: "add" }
+      data: { currentTitle: "", operationMode: "add" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.title != "_cancel") { this.currentBoardContent.unshift(result); };
-      this.currentBoardListTitles = this.currentBoardContent.map(list => "" + list.title);
-      console.log('The list dialog was closed');
-      console.log(result);
+      if (result.title != "_cancel") { this.store.dispatch(BoardActions.addList({ title: result.title })); };
+      // TODO: add to drag and drop list
     });
   }
 
@@ -171,15 +128,13 @@ export class AppComponent implements OnInit {
    */
   onEditList(currentList: List) {
     const dialogRef = this.dialog.open(ListModifyComponent, {
-      data: { currentTitle: currentList.title, currentContent: currentList.content, operationMode: "edit" }
+      data: { currentTitle: currentList.title, operationMode: "edit" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.title == "_delete") { this.currentBoardContent.splice(this.currentBoardContent.indexOf(currentList), 1) }
+      if (result.title == "_delete") { this.store.dispatch(BoardActions.deleteList({ list: currentList })); }
       else if (result.title == "_cancel") { }
-      else { Object.assign(currentList, result) };
-      this.currentBoardListTitles = this.currentBoardContent.map(list => "" + list.title);
-      console.log('The list dialog was closed');
-      console.log(result);
+      else { this.store.dispatch(BoardActions.editList({ list: currentList, newTitle: result.title })); };
+      // TODO: add to drag and drop list
     });
   }
 
@@ -193,9 +148,7 @@ export class AppComponent implements OnInit {
       data: { currentTitle: "", currentContent: "", operationMode: "add" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.title != "_cancel") { currentList.content.unshift(result); };
-      console.log('The item dialog was closed');
-      console.log(result);
+      if (result.title != "_cancel") { this.store.dispatch(BoardActions.addItem({ list: currentList, title: result.title, content: result.content })); };
     });
   }
 
@@ -211,12 +164,9 @@ export class AppComponent implements OnInit {
       data: { currentTitle: currentItem.title, currentContent: currentItem.content, operationMode: "edit" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.title == "_delete") { currentList.content.splice(currentList.content.indexOf(currentItem), 1) }
+      if (result.title == "_delete") { this.store.dispatch(BoardActions.deleteItem({ list: currentList, item: currentItem })); }
       else if (result.title == "_cancel") { }
-      else { Object.assign(currentItem, result) };
-
-      console.log('The item dialog was closed');
-      console.log(result);
+      else { this.store.dispatch(BoardActions.editItem({ list: currentList, item: currentItem, title: result.title, content: result.content })); };
     });
   }
 

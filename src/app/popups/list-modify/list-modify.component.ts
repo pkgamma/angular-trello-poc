@@ -20,7 +20,7 @@ export class ListModifyComponent implements OnInit {
    */
   constructor(
     public dialogRef: MatDialogRef<ListModifyComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { currentTitle: string, currentContent: Item[], operationMode: string },
+    @Inject(MAT_DIALOG_DATA) public data: { currentTitle: string, operationMode: string },
     public formBuilder: FormBuilder
   ) { }
 
@@ -45,12 +45,7 @@ export class ListModifyComponent implements OnInit {
    * with no content, in "edit" mode, passes back with current content unchanged
    */
   onSubmit() {
-    if (this.data.operationMode == "add") {
-      this.dialogRef.close({ "title": this.formGroup.value.title, "content": [] });
-    }
-    if (this.data.operationMode == "edit") {
-      this.dialogRef.close({ "title": this.formGroup.value.title, "content": this.data.currentContent });
-    }
+    this.dialogRef.close({ "title": this.formGroup.value.title });
   }
 
   /**
@@ -58,10 +53,7 @@ export class ListModifyComponent implements OnInit {
    * parent component to not perform any action
    */
   onNoClick() {
-    this.formGroup.patchValue({
-      title: "_cancel",
-    });
-    this.dialogRef.close(this.formGroup.value);
+    this.dialogRef.close({ "title": "_cancel" });
   }
 
   /**
@@ -70,10 +62,7 @@ export class ListModifyComponent implements OnInit {
    */
   onDeleteClick() {
     if (confirm('Are you sure you want to delete this?')) {
-      this.formGroup.patchValue({
-        title: "_delete",
-      });
-      this.dialogRef.close(this.formGroup.value);
+      this.dialogRef.close({ "title": "_delete" });
     }
   }
 

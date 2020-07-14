@@ -17,10 +17,6 @@ import { getTestMessage, getBoards } from '../state/board.reducer';
 })
 export class SidebarComponent implements OnInit {
 
-  @Output() boardSwitched: EventEmitter<number> = new EventEmitter<number>();
-
-  // boards: Board[];
-
   boards$: Observable<Board[]>;
 
   /**
@@ -30,7 +26,6 @@ export class SidebarComponent implements OnInit {
    */
   constructor(
     private store: Store<State>,
-    private dataService: DataService,
     public dialog: MatDialog
   ) { }
 
@@ -38,7 +33,6 @@ export class SidebarComponent implements OnInit {
    * Called once to get initial board data (id will be -1 as set in app component)
    */
   ngOnInit() {
-    // this.boards = this.dataService.getBoards();
     this.boards$ = this.store.select(getBoards);
   }
 
@@ -47,9 +41,7 @@ export class SidebarComponent implements OnInit {
    * @param id board id
    */
   onBoardSelect(id: number) {
-    // this.dataService.setCurrentBoardId(id);
     this.store.dispatch(BoardActions.setCurrentBoardId({ id: id }));
-    this.boardSwitched.emit(id);
   }
 
   /**
@@ -61,11 +53,7 @@ export class SidebarComponent implements OnInit {
       data: { currentBoard: {}, operationMode: "add" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.title != "_cancel") {
-        this.store.dispatch(BoardActions.addBoard({ title: result.title, id: result.id }));
-      }
-      console.log('The board dialog was closed');
-      console.log(result);
+      if (result.title != "_cancel") {this.store.dispatch(BoardActions.addBoard({ title: result.title, id: result.id }));};
     });
   }
 

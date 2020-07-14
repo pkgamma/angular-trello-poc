@@ -54,10 +54,7 @@ export class ItemModifyComponent implements OnInit {
    * parent component to not perform any action
    */
   onNoClick() {
-    this.formGroup.patchValue({
-      title: "_cancel",
-    });
-    this.dialogRef.close(this.formGroup.value);
+    this.dialogRef.close({ "title": "_cancel" });
   }
 
   /**
@@ -66,10 +63,7 @@ export class ItemModifyComponent implements OnInit {
    */
   onDeleteClick() {
     if (confirm('Are you sure you want to delete this?')) {
-      this.formGroup.patchValue({
-        title: "_delete",
-      });
-      this.dialogRef.close(this.formGroup.value);
+      this.dialogRef.close({ "title": "_delete" });
     }
   }
 
