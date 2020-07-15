@@ -41,6 +41,7 @@ export class SidebarComponent implements OnInit {
    */
   onBoardSelect(id: number) {
     this.store.dispatch(BoardActions.setCurrentBoardId({ id: id }));
+    this.store.dispatch(BoardActions.buildListTitlesArray());
   }
 
   /**
